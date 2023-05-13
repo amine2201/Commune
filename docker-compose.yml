@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  web:
+    build: ./communeFrontend
+    # image: communeFrontend
+    ports:
+      - "5173:5173"
+    networks:
+      - CommuneNet
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: communeDB
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - CommuneDB:/var/lib/mysql
+    networks:
+      - CommuneNet
+  api:
+    build: ./communeBackend
+    # image: communeBackend
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      DB_NAME: communeDB
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    depends_on:
+      - db
+    networks:
+      - CommuneNet
+volumes:
+  CommuneDB:
+networks:
+  CommuneNet: 
+   external: true
