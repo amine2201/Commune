@@ -3,7 +3,7 @@ import '../App.css'
 import {useState} from 'react'
 import { Link } from 'react-router-dom';
 
-export default function Home(){
+export default function Signup(){
     const [value, setValue] = useState('');
     const handleInputChange = (event : React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);

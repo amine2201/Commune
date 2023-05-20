@@ -3,7 +3,7 @@ import '../App.css'
 import {  Link } from "react-router-dom";
 import useForm from '../Hooks/useForm';
 
-export default function Home(){
+export default function Login(){
     const {user , onChangeInput , onSubmitForm } = useForm({
       email:'',
       password:''
