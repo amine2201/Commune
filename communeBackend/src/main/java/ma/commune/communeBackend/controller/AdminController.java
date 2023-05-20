@@ -5,6 +5,7 @@ import ma.commune.communeBackend.exception.*;
 import ma.commune.communeBackend.model.Citizen;
 import ma.commune.communeBackend.model.Employee;
 import ma.commune.communeBackend.model.Municipality;
+import ma.commune.communeBackend.model.User;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.EmployeeRepo;
 import ma.commune.communeBackend.repository.MunicipalityRepo;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/admins")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AdminController {
     private UserRepo userRepo;
     private CitizenRepo citizenRepo;
@@ -31,6 +33,11 @@ public class AdminController {
         this.citizenRepo = citizenRepo;
         this.employeeRepo = employeeRepo;
         this.municipalityRepo=municipalityRepo;
+    }
+
+    @GetMapping("/users")
+     public List<User> getAllUsers(){
+        return userRepo.findAll().stream().peek(user -> user.setPassword("")).toList();
     }
 
     @GetMapping("/employees")

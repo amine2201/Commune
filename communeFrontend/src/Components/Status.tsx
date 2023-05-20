@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 
 const Status = ()=>{
+    
     return (
         <>
   <Navbar/>
@@ -41,3 +42,6 @@ const Status = ()=>{
     )
   }
   export default Status;
+
+
+

@@ -26,6 +26,7 @@ const UploadFile = ()=>{
         .catch((err) => console.error(err));
         setClicked(true)
     }
+    
     return (
         <>
         <Navbar/>
@@ -36,8 +37,10 @@ const UploadFile = ()=>{
              { /*<img className="h-16 w-14 " src={URL.createObjectURL(file)} alt="preview"  /> */}
              <div className="p-10 border-solid border-green-800 rounded-sm">
               <h2 className="font-bold text-3xl">Your file is ready to be uploaded</h2><span className="font-bold">{file.name } </span>
+              
              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded ml-[15rem] mt-[1rem]" type="submit" onClick={handleSubmission}>Upload</button>
-             {clicked && <Modal/>}
+             {clicked &&
+               <Modal/> }
              </div>
             </>
              :
