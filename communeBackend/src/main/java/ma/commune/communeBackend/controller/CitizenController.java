@@ -2,7 +2,7 @@ package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
 import ma.commune.communeBackend.exception.CitizenNotFoundException;
-import ma.commune.communeBackend.model.Citizen;
+import ma.commune.communeBackend.model.Citoyen;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +24,21 @@ public class CitizenController {
 
 
 
-
+    @GetMapping("/citizens/{id}")
+    public ResponseEntity<Citoyen> getCitizenById(@PathVariable Long id) {
+        Citoyen citoyen = citizenRepo.findById(id).orElseThrow(()-> new CitizenNotFoundException("citizen "+id+" not found"));
+        citoyen.setPassword("");
+        return ResponseEntity.ok(citoyen);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Citizen> updateById(@PathVariable long id, @Valid @RequestBody Citizen citizenUpdated){
-        Citizen citizen= citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
-        citizen.setEmail(citizenUpdated.getEmail());
-        citizen.setPassword(citizenUpdated.getPassword());
-        citizenRepo.save(citizen);
-        citizen.setPassword("");
-        return ResponseEntity.ok(citizen);
+    public ResponseEntity<Citoyen> updateById(@PathVariable long id, @Valid @RequestBody Citoyen citoyenUpdated){
+        Citoyen citoyen = citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
+        citoyen.setEmail(citoyenUpdated.getEmail());
+        citoyen.setPassword(citoyenUpdated.getPassword());
+        citizenRepo.save(citoyen);
+        citoyen.setPassword("");
+        return ResponseEntity.ok(citoyen);
     }
 
 

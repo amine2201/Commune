@@ -9,9 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "citizens",uniqueConstraints = @UniqueConstraint(columnNames = {"cin"}))
+@Table(name = "citoyens",uniqueConstraints = @UniqueConstraint(columnNames = {"cin"}))
 @Data @NoArgsConstructor
-public class Citizen extends User{
+public class Citoyen extends User{
     @Column(name = "cin")
     @NotBlank(message = "no cin was provided")
     private String cin;

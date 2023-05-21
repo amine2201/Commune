@@ -2,10 +2,9 @@ package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
 import ma.commune.communeBackend.exception.*;
-import ma.commune.communeBackend.model.Citizen;
+import ma.commune.communeBackend.model.Citoyen;
 import ma.commune.communeBackend.model.Employee;
 import ma.commune.communeBackend.model.Municipality;
-import ma.commune.communeBackend.model.User;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.EmployeeRepo;
 import ma.commune.communeBackend.repository.MunicipalityRepo;
@@ -35,10 +34,7 @@ public class AdminController {
         this.municipalityRepo=municipalityRepo;
     }
 
-    @GetMapping("/users")
-     public List<User> getAllUsers(){
-        return userRepo.findAll().stream().peek(user -> user.setPassword("")).toList();
-    }
+
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees(){
@@ -85,44 +81,44 @@ public class AdminController {
     }
 
     @GetMapping("/citizens")
-    public List<Citizen> getAllCitizens(){
-        return citizenRepo.findAll().stream().peek(citizen -> citizen.setPassword("")).toList();
+    public List<Citoyen> getAllCitizens(){
+        return citizenRepo.findAll().stream().peek(citoyen -> citoyen.setPassword("")).toList();
     }
 
     @PostMapping("/citizens")
-    public Citizen saveCitizen(@Valid @RequestBody Citizen citizen){
-        if(userRepo.findByEmail(citizen.getEmail()).isPresent())
-            throw new CitizenFoundException("the email "+citizen.getEmail()+" already exists");
-        if(citizenRepo.findByCin(citizen.getCin()).isPresent())
-            throw new CitizenFoundException("the cin "+citizen.getCin()+" already exists");
-        citizen.setId(null);
-        Citizen citizen1 = citizenRepo.save(citizen);
-        citizen1.setPassword("");
-        return citizen1;
+    public Citoyen saveCitizen(@Valid @RequestBody Citoyen citoyen){
+        if(userRepo.findByEmail(citoyen.getEmail()).isPresent())
+            throw new CitizenFoundException("the email "+ citoyen.getEmail()+" already exists");
+        if(citizenRepo.findByCin(citoyen.getCin()).isPresent())
+            throw new CitizenFoundException("the cin "+ citoyen.getCin()+" already exists");
+        citoyen.setId(null);
+        Citoyen citoyen1 = citizenRepo.save(citoyen);
+        citoyen1.setPassword("");
+        return citoyen1;
     }
     @PutMapping("/citizens/{id}")
-    public ResponseEntity<Citizen> updateCitizenById(@PathVariable long id, @Valid @RequestBody Citizen citizenUpdated){
-        Citizen citizen= citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
-        citizen.setEmail(citizenUpdated.getEmail());
-        citizen.setPassword(citizenUpdated.getPassword());
-        citizen.setCin(citizenUpdated.getCin());
-        citizenRepo.save(citizen);
-        citizen.setPassword("");
-        return ResponseEntity.ok(citizen);
+    public ResponseEntity<Citoyen> updateCitizenById(@PathVariable long id, @Valid @RequestBody Citoyen citoyenUpdated){
+        Citoyen citoyen = citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
+        citoyen.setEmail(citoyenUpdated.getEmail());
+        citoyen.setPassword(citoyenUpdated.getPassword());
+        citoyen.setCin(citoyenUpdated.getCin());
+        citizenRepo.save(citoyen);
+        citoyen.setPassword("");
+        return ResponseEntity.ok(citoyen);
     }
     @DeleteMapping("/citizens/{id}")
     public ResponseEntity<Map<String,Boolean>> deleteCitizenById(@PathVariable long id){
-        Citizen citizen= citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
-        citizenRepo.delete(citizen);
+        Citoyen citoyen = citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
+        citizenRepo.delete(citoyen);
         Map<String,Boolean> map=new HashMap<>();
         map.put("deleted",true);
         return  ResponseEntity.ok(map);
     }
     @GetMapping("/citizens/{id}")
-    public ResponseEntity<Citizen> getCitizenById(@PathVariable Long id) {
-        Citizen citizen = citizenRepo.findById(id).orElseThrow(()-> new CitizenNotFoundException("citizen "+id+" not found"));
-        citizen.setPassword("");
-        return ResponseEntity.ok(citizen);
+    public ResponseEntity<Citoyen> getCitizenById(@PathVariable Long id) {
+        Citoyen citoyen = citizenRepo.findById(id).orElseThrow(()-> new CitizenNotFoundException("citizen "+id+" not found"));
+        citoyen.setPassword("");
+        return ResponseEntity.ok(citoyen);
     }
 
 

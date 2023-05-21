@@ -1,9 +1,9 @@
 package ma.commune.communeBackend.model;
 
 public enum Role {
-    CITIZEN,
+    CITOYEN,
     ADMIN,
     SUPER_ADMIN,
-    SERVANT,
+    FONCTIONNAIRE,
     PRESIDENT
 }
