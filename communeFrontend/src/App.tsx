@@ -16,8 +16,8 @@ return (
   <>
 <BrowserRouter>
 <Routes>
- <Route path='/Homepage' element={<Homepage/>}/>
-  <Route path='/' element={<Login/>}/>
+ <Route path='/' element={<Homepage/>}/>
+  <Route path='/Login' element={<Login/>}/>
  <Route path='Signup' element={<Signup/>}/>
  <Route path = '/Status' element={<Status/>}/>
  <Route path = '/Service' element={<Service/>}/>
