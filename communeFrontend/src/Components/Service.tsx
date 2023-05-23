@@ -2,7 +2,7 @@ import Modal from "./Modal"
 import Navbar from "./Navbar"
 import contract from '../assets/contract.jpg' 
 import add from '../assets/add.png' 
-import { ChangeEvent, useState , useRef, useEffect } from "react"
+import { ChangeEvent, useState  } from "react"
 import cancel2 from '../assets/cancel2.jpg'
 
 
@@ -88,7 +88,7 @@ const Service =  () => {
                 placeholder="CIN"
                 value={data}
                 onChange={(e) => handleChange2(e, i)}
-                className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200"
+                className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200 text-black font-semibold"
               />
               
               <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5"/>
