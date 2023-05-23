@@ -2,26 +2,19 @@ import Modal from "./Modal"
 import Navbar from "./Navbar"
 import contract from '../assets/contract.jpg' 
 import add from '../assets/add.png' 
-import { ChangeEvent, useState , useRef } from "react"
+import { ChangeEvent, useState , useRef, useEffect } from "react"
+import cancel2 from '../assets/cancel2.jpg'
 
 
-interface InputComponentProps {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+
+
 
 const Service =  () => {
     const [file,setFile] = useState<File>()
     const [clicked,setClicked] = useState<boolean>(false)
     const [checked,setChecked] = useState<boolean>(false)
-    const [inputComponent , setInputComponent] = useState<JSX.Element[]>([])
-    const [inputClicked , setInputClicked] = useState<number>(1)
-    const AddInputComponent = () => {
-        setInputComponent([...inputComponent, <CinInput key={inputComponent.length}/>])
-        console.log(inputComponent)
-        setInputClicked(inputClicked => inputClicked + 1);
+  
 
-    }
  
     const handleChange = (e:ChangeEvent<HTMLInputElement>)=>{
          if (e.target.files) {
@@ -45,43 +38,36 @@ const Service =  () => {
         
     }
    
-    
-    
-    const CinInput = () => {
-      const [inputValue, setInputValue] = useState('');
-    
-      const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-        console.log(inputRef.current?.value)
-        
+      const [val, setVal] = useState<string[]>([]);
+      const [buttonClicked, setButtonClicked] = useState<number>(0);
+  
+     
+      const handleAdd = () => {
+        const updatedVal = [...val, ""];
+        setVal(updatedVal);
+        setButtonClicked(buttonClicked + 1);
+          }
+
+      const handleChange2 = (onChangeValue: React.ChangeEvent<HTMLInputElement>, i: number) => {
+        const updatedVal = [...val];
+        updatedVal[i] = onChangeValue.target.value;
+        setVal(updatedVal);
       };
-      const inputRef = useRef<HTMLInputElement>(null);
-        return (
-            <div className="relative mb-3" data-te-input-wrapper-init>
-            <input
-              ref={inputRef}
-              placeholder="CIN"
-              type="text"
-              value={inputRef.current?.value }
-              className="peer block min-h-[auto] w-full rounded border-0 bg-primary-200 px-3 py-[0.32rem] leading-[1.6] outline-none "
-              id="CIN"
-             onChange={handleInputChange}
-              />
-            <label
-            placeholder="CIN"
-              
-              htmlFor="CIN"
-              className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-              >
-            </label>
-          </div>
-        
-        )}
+    
+      const handleDelete = (i: number) => {
+        const updatedVal = [...val];
+        updatedVal.splice(i, 1);
+        setVal(updatedVal);
+      };
+    
+    
+    
+    
     return (
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${80+inputClicked*5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md ">
+        <section style={{ height: `${80+buttonClicked*5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md ">
             <img className="h-50 w-40 mb-[1.5rem] " src={contract} alt="preview"  />
             <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez votre type de service</h2>
             <div>
@@ -91,10 +77,28 @@ const Service =  () => {
             <label htmlFor="default-radio-1" className="ml-2 text-sm font-medium  text-gray-900 dark:text-gray-300">Certification</label>
 
             </div>
-            <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez le nombre de signataires</h2>
-            <CinInput />
-             <img onClick={AddInputComponent} src={add} className="h-7 w-7 opacity-70 hover:opacity-50 relative block left-[4cm] bottom-11" />
-             {inputComponent}
+            <h2 className="font-bold py-5 text-center text-black text-xl">Ajouter les signataires de document</h2>
+            <img onClick={handleAdd} src={add} className="cursor-pointer h-7 w-7 opacity-70 hover:opacity-50 relative block mb-2" />
+           
+          {val.map((data, i) => (
+            <div key={i} className="flex items-center mb-2">
+                
+              <input
+                type="text"
+                placeholder="CIN"
+                value={data}
+                onChange={(e) => handleChange2(e, i)}
+                className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200"
+              />
+              
+              <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5"/>
+            
+              
+             
+            
+            </div>
+          ))}
+            
             <div>
             
             

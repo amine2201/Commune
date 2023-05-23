@@ -11,6 +11,7 @@ import Signup from './Components/Signup';
 import Status from './Components/Status';
 import Service from './Components/Service';
 import Homepage from './Components/Homepage';
+import EmployeeDashboard from './Components/EmployeeDashboard';
 function App() {
 return (
   <>
@@ -21,6 +22,10 @@ return (
  <Route path='Signup' element={<Signup/>}/>
  <Route path = '/Status' element={<Status/>}/>
  <Route path = '/Service' element={<Service/>}/>
+ <Route path = '/dashboard' element={<EmployeeDashboard/>}/>
+
+
+
 
 </Routes>
 </BrowserRouter>
