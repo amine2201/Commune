@@ -1,6 +1,10 @@
 export type userType = {
-    email : string,
-    password : string,
-    cin? : string,
-    role? : string
+    data: {
+        nom: string;
+        fichier: string;
+        crée_le: string;
+        status: string;
+        nombre_de_signataires: number;
 }
+}
+
