@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "citoyens",uniqueConstraints = @UniqueConstraint(columnNames = {"cin"}))
 @Data @NoArgsConstructor
-public class Citoyen extends User{
+public class Citizen extends User{
     @Column(name = "cin")
     @NotBlank(message = "no cin was provided")
     private String cin;

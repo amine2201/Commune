@@ -8,7 +8,7 @@
 		<version>3.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ma.commune</groupId>
+	<groupId>ma.municipality</groupId>
 	<artifactId>communeBackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>communeBackend</name>

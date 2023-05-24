@@ -1,38 +1,35 @@
 package ma.commune.communeBackend.config;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import ma.commune.communeBackend.model.Citizen;
+import ma.commune.communeBackend.model.Role;
+import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepo repository;
+    private final CitizenRepo citizenRepo;
+    private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-//    public AuthenticationResponse register(RegisterRequest request) {
-//        var user = User.builder()
-//                .firstname(request.getFirstname())
-//                .lastname(request.getLastname())
-//                .email(request.getEmail())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .role(request.getRole())
-//                .build();
-//        var savedUser = repository.save(user);
-//        var jwtToken = jwtService.generateToken(user);
-//        var refreshToken = jwtService.generateRefreshToken(user);
-//        saveUserToken(savedUser, jwtToken);
-//        return AuthenticationResponse.builder()
-//                .accessToken(jwtToken)
-//                .refreshToken(refreshToken)
-//                .build();
-//    }
+    public AuthenticationResponse register(@Valid @RequestBody Citizen citizen) {
+        citizen.setPassword(passwordEncoder.encode(citizen.getPassword()));
+        var savedCitizen= citizenRepo.save(citizen);
+        var jwtToken = jwtService.generateToken(savedCitizen);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -41,7 +38,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail(request.getEmail())
+        var user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

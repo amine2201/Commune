@@ -1,9 +1,13 @@
 package ma.commune.communeBackend.controller;
 
+import ma.commune.communeBackend.model.Role;
 import ma.commune.communeBackend.model.User;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "${webapp}")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
@@ -24,6 +30,7 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAllUsers(){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
         return userRepo.findAll().stream().peek(user -> user.setPassword("")).toList();
     }
 
