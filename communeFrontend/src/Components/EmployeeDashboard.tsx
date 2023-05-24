@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 const myColumns =[
 	{
-		Header: 'Nom',
+		Header: 'Nom complet',
 		accessor: 'nom'
 	},
 	{
@@ -120,10 +120,10 @@ const data = [
   
 
 const EmployeeDashboard = () => {
-	const userData = useMemo(() => data, []);
+	const usersData = useMemo(() => data, []);
 	const columns = useMemo(()=>myColumns,
         [])
-    const { getTableProps , getTableBodyProps , headerGroups , rows , prepareRow }= useTable({ columns, data:userData })
+    const { getTableProps , getTableBodyProps , headerGroups , rows , prepareRow }= useTable({ columns, data:usersData })
     
 
     return (
@@ -184,7 +184,7 @@ const EmployeeDashboard = () => {
 			}
 			
           return (
-            <td {...cell.getCellProps()} className="  px-5 py-5  border-b border-gray-200 bg-white text-sm">
+            <td {...cell.getCellProps()} className="  px-5 py-5  border-b border-gray-200 bg-white text-sm font-semibold">
               <div className="flex items-center">
                 
                 <div className="ml-3">

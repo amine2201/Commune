@@ -7,11 +7,11 @@ import {
   Route
 } from "react-router-dom";
 import Signup from './Components/Signup';
-
-import Status from './Components/Status';
 import Service from './Components/Service';
 import Homepage from './Components/Homepage';
 import EmployeeDashboard from './Components/EmployeeDashboard';
+import CitizenDashboard from './Components/CitizenDashboard';
+
 function App() {
 return (
   <>
@@ -20,7 +20,7 @@ return (
  <Route path='/' element={<Homepage/>}/>
   <Route path='/Login' element={<Login/>}/>
  <Route path='Signup' element={<Signup/>}/>
- <Route path = '/Status' element={<Status/>}/>
+ <Route path = '/CitizenDashboard' element={<CitizenDashboard/>}/>
  <Route path = '/Service' element={<Service/>}/>
  <Route path = '/dashboard' element={<EmployeeDashboard/>}/>
 
