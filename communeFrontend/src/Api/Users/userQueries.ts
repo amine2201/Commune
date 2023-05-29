@@ -1,5 +1,6 @@
-
-const fetchUsers = async () => { fetch("http://localhost:3037/api/users").then((res) => res.json()) }
+import axios from 'axios';
+const api = axios.create({baseURL: 'http://localhost:8080/api/v1'},);
+const fetchUser = async () => { await api.get('/user'); }
 
 
 

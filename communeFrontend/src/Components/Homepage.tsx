@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import homepage from '../assets/homepage.jpg'
 
+
  const Homepage = () => {
   return (
     <>
@@ -10,7 +11,7 @@ import homepage from '../assets/homepage.jpg'
   <p className="font-extrabold text-gray-500 mt-10 pl-7 ">Bienvenue sur notre site dédié à la légalisation et à la signature de documents.<br/> Nous vous offrons un service fiable et sécurisé pour certifier la validité de vos documents importants. <br/>Que ce soit pour des contrats ou des copies, notre équipe expérimentée est là pour vous accompagner. </p>
 </div>
 <img src={homepage} className="relative rounded-full opacity-[0.95] left-[55rem] bottom-[26rem] h-[75vh]"/>
-
+   
     </>
   );
 }

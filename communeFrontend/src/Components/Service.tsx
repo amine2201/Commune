@@ -60,9 +60,6 @@ const Service =  () => {
         setVal(updatedVal);
       };
     
-    
-    
-    
     return (
         <>
         <Navbar isAuthenticated={true}/>
