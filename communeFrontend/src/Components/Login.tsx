@@ -10,8 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Login(){
-
-  const [error, setError] = useState<boolean>(false)
+  
   const navigate = useNavigate()
   const [user,setUser] = useState<userType>(
     {
@@ -99,7 +98,7 @@ return (
                       <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
                           Vous n'avez pas un compte ? <Link to="/Signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Inscription</Link>
                       </p>
-                      {error ?? <h1 className=" font-bold text-red-700 dark:text-red-400 text-3xl">LOGIN DATA INCORRECT !!</h1>}
+                  
                   </form>
                  
               </div>
