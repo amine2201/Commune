@@ -2,47 +2,66 @@ import logoWizara from '../assets/logoWizara.jpeg'
 import '../App.css'
 import {  Link, useNavigate } from "react-router-dom";
 import { userType } from "../Types/types";
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { LoginUser } from '../Api/Auth/Auth';
+import { ChangeEvent, SyntheticEvent , useState } from 'react';
+import { api } from '../Api/Auth/AuthService';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Login(){
-  const navigate = useNavigate();
-  const mutation = useMutation(LoginUser , {
-    
-      onSuccess: () => {  navigate('/Service')} ,
-      onError: () => { localStorage.removeItem('token') ;
-      
-        return  <h1 className='font-bold text-4xl text-red-600' > Ce compte n'existe pas</h1> }
-  })
-  const {data} = useMutation(LoginUser)
+
+  const [error, setError] = useState<boolean>(false)
+  const navigate = useNavigate()
   const [user,setUser] = useState<userType>(
     {
       email:'',
       password:''
     }
   );
-
+  const email = user.email
+  const password = user.password
   const onChangeInput = (e:ChangeEvent<HTMLInputElement>)=>{
   const {name ,value } = e.target 
   setUser({...user,[name]:value}) }  
 
   const onSubmitForm = async (e : SyntheticEvent) => {
-  e.preventDefault()
-  await mutation.mutateAsync({ email: user.email, password: user.password }); 
+    e.preventDefault()  
+    try {
+      const {data} = await api.post('/authenticate', {email , password});
+      const {token} = data;
+      data.user = {email};
+      localStorage.setItem('jwtToken', token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      navigate('/CitizenDashboard')
+      window.location.reload();
+      return data;
+    
+  }   catch (err) {
+    console.dir("LOGIN ERROR : ",err);
+    toast.error('Données Incorrectes ! Veuillez répeter', {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+    
+
+
+  }
+
+      setUser({email:'',password:''})
 }
-
-
-  const {isLoading , isError } = useMutation( LoginUser)
-  useEffect(() =>console.log("LOGIN DATA : ",data), [data])
-  if(isLoading) return <h1 className='font-bold text-white text-4xl'>Loading ...</h1>
-
-  
-
+      
 return (
-        <>
-     <section >
+   
+<>
+      <section >
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -64,15 +83,30 @@ return (
                          
                       </div>
                       <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">S'Authentifier</button>
+                      <ToastContainer
+                        position="bottom-center"
+                        autoClose={3000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                        />                        
                  
                       <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
                           Vous n'avez pas un compte ? <Link to="/Signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Inscription</Link>
                       </p>
+                      {error ?? <h1 className=" font-bold text-red-700 dark:text-red-400 text-3xl">LOGIN DATA INCORRECT !!</h1>}
                   </form>
+                 
               </div>
           </div>
       </div>
     </section>
-        </>
+      
+</>
       )
     }

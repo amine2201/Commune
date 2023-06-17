@@ -4,3 +4,7 @@ export type userType = {
     cin?: string,
 }
 
+export type IAuthContext = {
+    isLoggedIn : boolean ,
+    setIsLoggedIn : React.Dispatch<React.SetStateAction<boolean>>
+} 

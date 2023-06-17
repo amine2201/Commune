@@ -3,12 +3,11 @@ import '../App.css'
 import { Link } from 'react-router-dom';
 import { userType } from "../Types/types";
 import { useMutation } from '@tanstack/react-query';
-import { SignupUser } from '../Api/Auth/Auth';
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { SignupUser } from '../Api/Auth/AuthService';
 
 
 export default function Signup(){
-  
     const { mutateAsync , data } = useMutation(SignupUser)
     const [user,setUser] = useState<userType>({
         email:'',
@@ -23,18 +22,11 @@ export default function Signup(){
     e.preventDefault()
     try {
         await mutateAsync({ email: user.email, password: user.password, cin: user.cin });
-      
         } catch (error) {
         console.log(error);
       }
     }
-  const {isLoading , isError } = useMutation(SignupUser)
   useEffect(() =>console.log("MY DATA : ",data), [data])
- 
-  if(isLoading) return <h1 className='font-bold text-white text-4xl'>Loading ...</h1>
-  if(isError) return <h1 className='font-bold text-white text-4xl'>Error</h1>
-
- 
 return (
         <>
      <section >
@@ -62,7 +54,7 @@ return (
                       <div className="flex items-center justify-between">
                          
                       </div>
-                      <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  onClick={()=>console.log(user)}>S'Inscrire</button>
+                      <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  onClick={()=>console.log("WHEN CLICKED ON SIGNUP : ",user)}>S'Inscrire</button>
                       <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
                           Vous avez dèja un compte ? <Link to="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Se connecter</Link>
                       </p>

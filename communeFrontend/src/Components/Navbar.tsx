@@ -1,12 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logoWizara from '../assets/logoWizara.jpeg'
 import profile from '../assets/profile.png'
 import Notifications from './Notifications';
-
+import { api } from '../Api/Auth/AuthService';
 interface HeaderProps {
   isAuthenticated: boolean;
 }
 const NavbarTrue = () => {
+  const navigate = useNavigate()
+  const username = localStorage.getItem('user') ;
+  const handleLogout = async () => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('user');
+    delete api.defaults.headers.common['Authorization'];
+    navigate('/')
+    window.location.reload();
+}
+
   return (
     <>
       <ul className="font-medium flex flex-col p-6 mt-4  px-10 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-16 mr-10 py-4 pl-5 md:mt-0 md:border-0 md:bg-white">
@@ -18,11 +28,17 @@ const NavbarTrue = () => {
           </li>
           <li className="flex items-center ">
            <img src={profile} className='h-8 w-8' alt="Profile" />
-            <span className=' block ml-2 text-black font-medium uppercase leading-normal text-primary mb-1'>username</span>
+            <span className=' block ml-2 text-black font-medium uppercase leading-normal text-primary mb-1'>
+              {
+              username  ? JSON.parse(username).email : ''
+            }</span>
             <li>
               <Notifications/>
             </li>
   </li>
+            <li>
+            <Link className="rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" onClick={handleLogout} to="/">Logout</Link>
+              </li>
         </ul>
     </>
   )
