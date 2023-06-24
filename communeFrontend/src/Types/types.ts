@@ -3,8 +3,14 @@ export type userType = {
     password: string,
     cin?: string,
 }
+export enum documentType {
+    legalisation = "Legalisation",
+    certification = "Certification",
+}
 
-export type IAuthContext = {
-    isLoggedIn : boolean ,
-    setIsLoggedIn : React.Dispatch<React.SetStateAction<boolean>>
+export type uploadData = {
+    _file? : File ,
+    documentType? : documentType,
+    CINs : string[],
+    
 } 
