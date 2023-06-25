@@ -22,7 +22,7 @@ public class DocumentController {
     private final DocumentRepo documentRepo;
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file
-            , @RequestParam("type") DocumentType documentType, @RequestParam List<String> cins) {
+            , @RequestParam("DocumentType") DocumentType documentType, @RequestParam List<String> cins) {
         if (!file.isEmpty()) {
             try {
                 List<Citizen> citizens=new ArrayList<>();
