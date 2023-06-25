@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import ma.commune.communeBackend.exception.NotificationExceptions.NotificationNotFoundException;
 import ma.commune.communeBackend.model.Citizen;
 import ma.commune.communeBackend.model.Notification;
+import ma.commune.communeBackend.model.record.NotificationInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.NotificationRepo;
 import org.springframework.http.HttpStatus;
@@ -25,24 +26,24 @@ public class NotificationController {
 
     @GetMapping("/notifications")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
-    public List<Notification> getNotifications(){
+    public List<NotificationInfo> getNotifications(){
         List<Notification> notifications= notificationRepo.findAll();
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen = (Citizen) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             notifications.removeIf(notification -> !notification.getCitizen().equals(citizen));
         }
-            return notifications;
+            return notifications.stream().map(this::convertToNotificationInfo).toList();
     }
     @GetMapping("/notifications/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
-    public Notification getNotificationById(@PathVariable long id){
+    public NotificationInfo getNotificationById(@PathVariable long id){
         Notification notification = notificationRepo.findById(id).orElseThrow(()->new NotificationNotFoundException("notification "+id+" pas trouvé"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen = (Citizen) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(!notification.getCitizen().equals(citizen))
                 return null;
         }
-        return notification;
+        return convertToNotificationInfo(notification);
     }
     @PostMapping("/notifications")
     @PreAuthorize("hasRole('ADMIN')")
@@ -59,6 +60,11 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notification "+id+" pas trouvé");
         notificationRepo.deleteById(id);
         return ResponseEntity.ok("notification "+id+" supprimé");
+    }
+    private NotificationInfo convertToNotificationInfo(Notification notification){
+        return new NotificationInfo(notification.getId().toString()
+                ,notification.getType(),notification.getMessage(),
+                notification.getCitizen().getId().toString());
     }
     @PutMapping("/notifications/{id}")
     @PreAuthorize("hasRole('ADMIN')")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundException;
 import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundException;
 import ma.commune.communeBackend.model.*;
+import ma.commune.communeBackend.model.record.DocumentInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.DocumentRepo;
 import org.springframework.http.HttpStatus;
@@ -57,13 +58,13 @@ public class DocumentController {
     }
     @GetMapping("/documents")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
-    public List<Document> getAllDocuments(){
+    public List<DocumentInfo> getAllDocuments(){
         List<Document> documents=documentRepo.findAll();
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             documents.removeIf(document -> !document.getCitizens().contains(citizen));
         }
-        return documents;
+        return documents.stream().map(DocumentController::getDocumentInfo).toList();
 
     }
     @PostMapping("/documents/signer/{id}")
@@ -106,13 +107,23 @@ public class DocumentController {
     }
 
     @PutMapping("/documents/{id}")
-    public Document updateDocument(@PathVariable Long id, @RequestBody Document document) {
+    public DocumentInfo updateDocument(@PathVariable Long id, @RequestBody Document document) {
         Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         document1.setDocumentType(document.getDocumentType());
         document1.setCitizens(document.getCitizens());
         document1.setStatus(document.getStatus());
-        return documentRepo.save(document1);
+        document1= documentRepo.save(document1);
+        return getDocumentInfo(document);
     }
+
+    private static DocumentInfo getDocumentInfo(Document document) {
+        return new DocumentInfo(document.getId(), document.getDocumentType(),
+                document.getEmployee() != null ? document.getEmployee().getId() : null,
+                document.getCitizens().stream().map(Citizen::getId).toList()
+                ,document.getSignees().stream().map(Citizen::getId).toList(),
+                document.getStatus());
+    }
+
     @DeleteMapping("/documents/{id}")
     public String deleteDocument(@PathVariable Long id) {
         Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
