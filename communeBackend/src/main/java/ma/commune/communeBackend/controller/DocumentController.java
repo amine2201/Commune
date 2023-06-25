@@ -7,6 +7,9 @@ import ma.commune.communeBackend.model.*;
 import ma.commune.communeBackend.model.record.DocumentInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.DocumentRepo;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +35,7 @@ public class DocumentController {
     private final CitizenRepo citizenRepo;
     private final DocumentRepo documentRepo;
     @PostMapping("/documents")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     public String saveFile(@RequestParam("file") MultipartFile file
             , @RequestParam("DocumentType") DocumentType documentType, @RequestParam List<String> cins) {
         if (!file.isEmpty()) {
@@ -102,11 +109,13 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.OK).body("document"+id+" status changee avec succes");
     }
     @GetMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
     public Document getDocumentById(@PathVariable Long id) {
         return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
     }
 
     @PutMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public DocumentInfo updateDocument(@PathVariable Long id, @RequestBody Document document) {
         Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         document1.setDocumentType(document.getDocumentType());
@@ -125,9 +134,25 @@ public class DocumentController {
     }
 
     @DeleteMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String deleteDocument(@PathVariable Long id) {
         Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         documentRepo.delete(document);
         return "document " + id + " supprime avec succes";
+    }
+    @GetMapping("/download/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
+        Document document =documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+        Path fileLocation = Paths.get(document.getPath());
+        Resource resource = new UrlResource(fileLocation.toUri());
+
+        if(resource.exists() || resource.isReadable()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } else {
+            throw new RuntimeException("Could not read the file!");
+        }
     }
 }
