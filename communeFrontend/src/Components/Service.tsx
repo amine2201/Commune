@@ -75,13 +75,19 @@ const Service =  () => {
 
       }, [upload])
 
+      const handleDeleteFile = () => {
+        setFile(undefined)
+        setUpload((prev) => ({...prev, _file : undefined}))
+
+      }
+
     return (
 
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${80+buttonClicked*5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md ">
-            <img className="h-50 w-40 mb-[1.5rem] " src={contract} alt="preview"  />
+        <section style={{ height: `${80+buttonClicked*6}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md ">
+            <img className="h-55 w-40 mb-[1.5rem] overflow-hidden " src={contract} alt="preview"  />
             <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez votre type de service</h2>
             <div>
             <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 "/>
@@ -106,22 +112,15 @@ const Service =  () => {
               
               <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5"/>
             
-              
-             
-            
             </div>
           ))}
-            
-            <div>
-            
-            
-            
-            
-            </div>
 
             {file ?
              <>
-             <div className="p-10 border-solid border-green-800 rounded-sm">
+              <h2 className="font-bold py-5 text-center text-black text-xl">Fichier selectionné : {file.name}</h2>
+              <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  "/>
+             <div className=" border-solid border-green-800 rounded-sm">
+             
              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded " type="submit"  onClick={handleSubmission}>Upload</button>
              {clicked &&
                <Modal/> }
