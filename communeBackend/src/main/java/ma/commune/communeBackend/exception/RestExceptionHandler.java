@@ -5,6 +5,8 @@ import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundExce
 import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundException;
 import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeFoundException;
 import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeNotFoundException;
+import ma.commune.communeBackend.exception.NotificationExceptions.NotificationFoundException;
+import ma.commune.communeBackend.exception.NotificationExceptions.NotificationNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,10 +41,18 @@ public class RestExceptionHandler {
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
-    
+
     @ExceptionHandler(DocumentNotFoundException.class)
     public ResponseEntity<Object> handleDocumentNotFoundException(DocumentNotFoundException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler(NotificationNotFoundException.class)
+    public ResponseEntity<Object> handleNotificationNotFoundException(NotificationNotFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler(NotificationFoundException.class)
+    public ResponseEntity<Object> handleNotificationFoundException(NotificationFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
