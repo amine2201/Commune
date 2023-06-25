@@ -6,6 +6,9 @@ import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundEx
 import ma.commune.communeBackend.model.*;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.DocumentRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,27 +66,48 @@ public class DocumentController {
         return documents;
 
     }
-    @PostMapping("/documents/signer")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
-    public String signDocument(@RequestParam("id") Long id){
+    @PostMapping("/documents/signer/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
+    public ResponseEntity<String> signDocument(@PathVariable("id") Long id){
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             if(!document.getCitizens().contains(citizen)){
-                return "you are not allowed to sign this document";
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous n'etes pas concerne par ce document");
+            }
+            else if(document.getSignees().contains(citizen)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous avez deja signe ce document");
+            }
+            else{
+                document.getSignees().add(citizen);
             }
         }
         documentRepo.save(document);
-        return "document "+id+" signed successfully";
+        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" signe avec succes");
+    }
+    @PostMapping("/documents/valider/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+    public ResponseEntity<String> validerDocument(@PathVariable("id") Long id, @RequestParam("status") Status status){
+        Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" non trouve"));
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))){
+            if(document.getStatus().equals(Status.APPROVED)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ce document est deja valide");
+            }
+            else{
+                document.setStatus(status);
+            }
+        }
+        documentRepo.save(document);
+        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" status changee avec succes");
     }
     @GetMapping("/documents/{id}")
     public Document getDocumentById(@PathVariable Long id) {
-        return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " not found"));
+        return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
     }
 
     @PutMapping("/documents/{id}")
     public Document updateDocument(@PathVariable Long id, @RequestBody Document document) {
-        Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " not found"));
+        Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         document1.setDocumentType(document.getDocumentType());
         document1.setCitizens(document.getCitizens());
         document1.setStatus(document.getStatus());
@@ -91,8 +115,8 @@ public class DocumentController {
     }
     @DeleteMapping("/documents/{id}")
     public String deleteDocument(@PathVariable Long id) {
-        Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " not found"));
+        Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         documentRepo.delete(document);
-        return "document " + id + " deleted successfully";
+        return "document " + id + " supprime avec succes";
     }
 }

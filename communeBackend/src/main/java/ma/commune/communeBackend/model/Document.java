@@ -35,7 +35,11 @@ public class Document {
     @OneToMany
     private List<Citizen> citizens;
 
-    @Column(name = "signed")
+    @Column(name = "signe")
+    @OneToMany
+    private List<Citizen> signees;
+
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
 }
