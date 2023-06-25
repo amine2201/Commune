@@ -7,6 +7,7 @@ import { ChangeEvent, useEffect, useState  } from "react"
 import cancel2 from '../assets/cancel2.jpg'
 import { documentType, uploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
+import PDFimage from "./PDFimage"
 
 
 const Service =  () => {
