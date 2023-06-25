@@ -1,18 +1,15 @@
 package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
-import ma.commune.communeBackend.exception.CitizenFoundException;
-import ma.commune.communeBackend.exception.CitizenNotFoundException;
+import ma.commune.communeBackend.exception.CitizenExceptions.CitizenFoundException;
+import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundException;
 import ma.commune.communeBackend.model.Citizen;
-import ma.commune.communeBackend.model.Role;
 import ma.commune.communeBackend.model.User;
 import ma.commune.communeBackend.model.record.CitizenInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 @RestController
@@ -43,7 +39,6 @@ public class CitizenController {
     }
 
     @PostMapping("/citizens")
-    @PreAuthorize("hasRole('ADMIN')")
     public CitizenInfo saveCitizen(@Valid @RequestBody Citizen citizen){
         if(userRepo.findByEmail(citizen.getEmail()).isPresent())
             throw new CitizenFoundException("the email "+ citizen.getEmail()+" already exists");

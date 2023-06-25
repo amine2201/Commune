@@ -1,5 +1,10 @@
 package ma.commune.communeBackend.exception;
 
+import ma.commune.communeBackend.exception.CitizenExceptions.CitizenFoundException;
+import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundException;
+import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundException;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeFoundException;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,8 +21,8 @@ import java.util.Map;
 public class RestExceptionHandler {
 
     @ExceptionHandler(CitizenFoundException.class)
-    public ResponseEntity<Object> handleCitizenFoundrException(CitizenFoundException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<Object> handleCitizenFoundException(CitizenFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(CitizenNotFoundException.class)
@@ -26,12 +31,17 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(EmployeeFoundException.class)
-    public ResponseEntity<Object> handleEmployeeFoundrException(EmployeeFoundException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<Object> handleEmployeeFoundException(EmployeeFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<Object> handleDocumentNotFoundException(DocumentNotFoundException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)

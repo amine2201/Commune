@@ -1,8 +1,8 @@
 package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
-import ma.commune.communeBackend.exception.EmployeeFoundException;
-import ma.commune.communeBackend.exception.EmployeeNotFoundException;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeFoundException;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeNotFoundException;
 import ma.commune.communeBackend.model.Employee;
 import ma.commune.communeBackend.repository.EmployeeRepo;
 import ma.commune.communeBackend.repository.UserRepo;

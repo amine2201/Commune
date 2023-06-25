@@ -1,4 +1,4 @@
-package ma.commune.communeBackend.exception;
+package ma.commune.communeBackend.exception.MunicipalityExceptions;
 
 public class MunicipalityNotFoundException extends RuntimeException{
     public MunicipalityNotFoundException(String message) {
