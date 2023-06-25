@@ -31,7 +31,13 @@ const Service =  () => {
     }
     const handleSubmission = async () => {
         setClicked(true);
-        await api.post('/upload',upload) }
+        const formData = new FormData();
+        formData.append("file", file!);
+        formData.append("DocumentType", "LEGALISATION");
+        formData.append("cins", upload.CINs.toString());
+
+        await api.post('/upload', 
+          formData); }
      
      
       const handleAdd = () => {
