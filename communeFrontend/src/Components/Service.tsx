@@ -9,7 +9,6 @@ import { documentType, uploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
 
 
-
 const Service =  () => {
    
    const [upload , setUpload] = useState<uploadData>({
@@ -32,8 +31,13 @@ const Service =  () => {
     }
     const handleSubmission = async () => {
         setClicked(true);
-        await api.post('/upload',upload )
-        }
+        const formData = new FormData();
+        formData.append("file", file!);
+        formData.append("DocumentType", upload.documentType!);
+        formData.append("cins", upload.CINs.toString());
+
+        await api.post('/upload', 
+          formData); }
      
      
       const handleAdd = () => {
@@ -55,7 +59,7 @@ const Service =  () => {
         setVal(updatedVal);
       };
       const handleRadioButtonChange = (e:ChangeEvent<HTMLInputElement>)=>{
-        if (e.target.value === "Certification"){
+        if (e.target.value === "CERTIFICATION"){
           setChecked(true)
           setUpload((prev) => ({...prev, documentType : documentType.certification}))
           

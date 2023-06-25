@@ -1,8 +1,8 @@
 package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
-import ma.commune.communeBackend.exception.MunicipalityFoundException;
-import ma.commune.communeBackend.exception.MunicipalityNotFoundException;
+import ma.commune.communeBackend.exception.MunicipalityExceptions.MunicipalityFoundException;
+import ma.commune.communeBackend.exception.MunicipalityExceptions.MunicipalityNotFoundException;
 import ma.commune.communeBackend.model.Municipality;
 import ma.commune.communeBackend.repository.MunicipalityRepo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,8 +4,8 @@ export type userType = {
     cin?: string,
 }
 export enum documentType {
-    legalisation = "Legalisation",
-    certification = "Certification",
+    legalisation = "LEGALISATION",
+    certification = "CERTIFICATION",
 }
 
 export type uploadData = {

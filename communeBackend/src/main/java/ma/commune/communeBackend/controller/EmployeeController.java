@@ -1,14 +1,16 @@
 package ma.commune.communeBackend.controller;
 
 import jakarta.validation.Valid;
-import ma.commune.communeBackend.exception.EmployeeFoundException;
-import ma.commune.communeBackend.exception.EmployeeNotFoundException;
+import lombok.AllArgsConstructor;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeFoundException;
+import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeNotFoundException;
 import ma.commune.communeBackend.model.Employee;
 import ma.commune.communeBackend.repository.EmployeeRepo;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,15 +20,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "${webapp}")
+@AllArgsConstructor
 public class EmployeeController{
-    private UserRepo userRepo;
-    private EmployeeRepo employeeRepo;
-    @Autowired
-    public EmployeeController(UserRepo userRepo, EmployeeRepo employeeRepo) {
-        this.userRepo = userRepo;
-        this.employeeRepo = employeeRepo;
-    }
-
+    private final UserRepo userRepo;
+    private final EmployeeRepo employeeRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/employees")
     @PreAuthorize("hasRole('ADMIN')")
@@ -40,6 +38,7 @@ public class EmployeeController{
         if(userRepo.findByEmail(employee.getEmail()).isPresent())
             throw new EmployeeFoundException("the email "+employee.getEmail()+" already exists");
         employee.setId(null);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         Employee employee1 = employeeRepo.save(employee);
         employee1.setPassword("");
         return employee1;
@@ -49,7 +48,7 @@ public class EmployeeController{
     public ResponseEntity<Employee> updateEmployeeById(@PathVariable long id, @Valid @RequestBody Employee employeeUpdated){
         Employee employee= employeeRepo.findById(id).orElseThrow(()->new EmployeeNotFoundException("employee "+id+" not found"));
         employee.setEmail(employeeUpdated.getEmail());
-        employee.setPassword(employeeUpdated.getPassword());
+        employee.setPassword(passwordEncoder.encode(employeeUpdated.getPassword()));
         employee.setRole(employeeUpdated.getRole());
         employee.setFirstName(employeeUpdated.getFirstName());
         employee.setLastName(employeeUpdated.getLastName());
