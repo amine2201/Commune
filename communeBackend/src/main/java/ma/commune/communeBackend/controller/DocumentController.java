@@ -1,5 +1,6 @@
 package ma.commune.communeBackend.controller;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundException;
 import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundException;
@@ -7,6 +8,7 @@ import ma.commune.communeBackend.model.*;
 import ma.commune.communeBackend.model.record.DocumentInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.DocumentRepo;
+import ma.commune.communeBackend.repository.NotificationRepo;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +36,7 @@ import java.util.List;
 public class DocumentController {
     private final CitizenRepo citizenRepo;
     private final DocumentRepo documentRepo;
+    private final NotificationRepo notificationRepo;
     @PostMapping("/documents")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     public String saveFile(@RequestParam("file") MultipartFile file
@@ -53,7 +56,14 @@ public class DocumentController {
                 document.setDocumentType(documentType);
                 document.setCitizens(citizens);
                 document.setStatus(Status.PENDING);
-                documentRepo.save(document);
+                document=documentRepo.save(document);
+                for(Citizen citizen : citizens){
+                    Notification notification=new Notification();
+                    notification.setCitizen(citizen);
+                    notification.setType(NotificationType.DOCUMENT_TO_SIGN);
+                    notification.setDocument(document);
+                    notificationRepo.save(notification);
+                }
                 return "File uploaded successfully";
             } catch (IOException e) {
                 e.printStackTrace();
@@ -76,6 +86,7 @@ public class DocumentController {
     }
     @PostMapping("/documents/signer/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
+    @Transactional
     public ResponseEntity<String> signDocument(@PathVariable("id") Long id){
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
@@ -88,6 +99,7 @@ public class DocumentController {
             }
             else{
                 document.getSignees().add(citizen);
+                notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen.getId(),document.getId());
             }
         }
         documentRepo.save(document);
@@ -103,6 +115,13 @@ public class DocumentController {
             }
             else{
                 document.setStatus(status);
+                for(Citizen citizen : document.getCitizens()){
+                    Notification notification=new Notification();
+                    notification.setCitizen(citizen);
+                    notification.setType(document.getStatus().equals(Status.APPROVED)?NotificationType.DOCUMENT_APPROVED:NotificationType.DOCUMENT_DECLINED);
+                    notification.setDocument(document);
+                    notificationRepo.save(notification);
+                }
             }
         }
         documentRepo.save(document);

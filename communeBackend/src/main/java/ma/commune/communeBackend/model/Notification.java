@@ -16,6 +16,8 @@ public class Notification {
     private String message;
     @ManyToOne
     private Citizen citizen;
+    @ManyToOne
+    private Document document;
     public Notification(NotificationType type) {
         this.type = type;
         if(type.equals(NotificationType.DOCUMENT_DECLINED)){

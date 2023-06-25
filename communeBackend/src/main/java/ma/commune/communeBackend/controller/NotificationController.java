@@ -54,7 +54,7 @@ public class NotificationController {
         return notificationRepo.save(notification);
     }
     @DeleteMapping("/notifications/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     public ResponseEntity<String> deleteNotification(@PathVariable long id){
         if(!notificationRepo.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notification "+id+" pas trouvé");
@@ -64,7 +64,7 @@ public class NotificationController {
     private NotificationInfo convertToNotificationInfo(Notification notification){
         return new NotificationInfo(notification.getId().toString()
                 ,notification.getType(),notification.getMessage(),
-                notification.getCitizen().getId().toString());
+                notification.getCitizen().getId().toString(),notification.getDocument().getId().toString());
     }
     @PutMapping("/notifications/{id}")
     @PreAuthorize("hasRole('ADMIN')")
