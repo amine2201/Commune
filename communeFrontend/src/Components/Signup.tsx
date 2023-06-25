@@ -1,6 +1,6 @@
 import logoWizara from '../assets/logoWizara.jpeg'
 import '../App.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userType } from "../Types/types";
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { SignupUser } from '../Api/Auth/AuthService';
 
 
 export default function Signup(){
+    const navigate = useNavigate()
     const { mutateAsync , data } = useMutation(SignupUser)
     const [user,setUser] = useState<userType>({
         email:'',

@@ -33,7 +33,7 @@ const Service =  () => {
         setClicked(true);
         const formData = new FormData();
         formData.append("file", file!);
-        formData.append("DocumentType", "LEGALISATION");
+        formData.append("DocumentType", upload.documentType!);
         formData.append("cins", upload.CINs.toString());
 
         await api.post('/upload', 
@@ -59,7 +59,7 @@ const Service =  () => {
         setVal(updatedVal);
       };
       const handleRadioButtonChange = (e:ChangeEvent<HTMLInputElement>)=>{
-        if (e.target.value === "Certification"){
+        if (e.target.value === "CERTIFICATION"){
           setChecked(true)
           setUpload((prev) => ({...prev, documentType : documentType.certification}))
           
