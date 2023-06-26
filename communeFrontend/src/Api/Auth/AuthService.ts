@@ -11,13 +11,12 @@ export const SignupCitoyen = async (citoyen : Citoyen) => {
     }   catch (error) { console.dir("SIGN UP ERROR : ",error); }
 }
 
-export const LoginUser = async ({email , password} : User) => {
+export const LoginUser = async (email:string , password:string) => {
     try {
-        const {data} = await api.post('/authenticate', {email , password});
-        const {token} = data;
-        data.user = {email};
+        const data = await api.post('/authenticate', {email , password});
+        const {role,token} = data.data;
         localStorage.setItem('jwtToken', token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('user', JSON.stringify({email , role}));
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         return data;
     }   catch (error) { console.dir("LOGIN ERROR : ",error);   }

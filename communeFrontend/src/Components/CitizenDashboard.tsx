@@ -37,6 +37,7 @@ const data:any= []
 const CitizenDashboard = ()=>{
   const [documents, setDocuments] = useState<Document[]>([]);
   useEffect(() => {
+    console.log(localStorage.getItem('user'));
     documentService.getDocuments().then((documents) => { 
       setDocuments(documents);
     }).catch((error) => {
@@ -54,7 +55,6 @@ const CitizenDashboard = ()=>{
           status: doc.status?doc.status.toString():'en cours'
         })
       });
-     console.log(data); 
     }, [documents]);
     const nav = useNavigate();
     const userData = useMemo(() => data, []);

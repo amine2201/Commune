@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "posts": [
     {
       "id": 1,
@@ -16,4 +17,18 @@
   "profile": {
     "name": "typicode"
   }
+=======
+  "users": [
+    {
+      "id": 2,
+      "email": "hereitis@gmail.com",
+      "cin": "djiosjdiov"
+    },
+    {
+      "id": 3,
+      "email": "isittime@gmail.com",
+      "cin": "sjiasjco"
+    }
+  ]
+>>>>>>> 54734e3960f5d65ae516b46ca30058fe86f4e032
 }

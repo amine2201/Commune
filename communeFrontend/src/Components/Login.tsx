@@ -3,7 +3,7 @@ import '../App.css'
 import {  Link, useNavigate } from "react-router-dom";
 import { User } from "../Types/types";
 import { ChangeEvent, SyntheticEvent , useState } from 'react';
-import { api } from '../Api/Auth/AuthService';
+import { LoginUser } from '../Api/Auth/AuthService';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,15 +27,7 @@ export default function Login(){
   const onSubmitForm = async (e : SyntheticEvent) => {
     e.preventDefault()  
     try {
-      const {data} = await api.post('/authenticate', {email , password});
-      const {token} = data;
-      data.user = {email};
-      localStorage.setItem('jwtToken', token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      navigate('/CitizenDashboard')
-      window.location.reload();
-      return data;
+      LoginUser(email,password).then(()=>{navigate('/'); window.location.reload();});
     
   }   catch (err) {
     console.dir("LOGIN ERROR : ",err);
@@ -49,8 +41,7 @@ export default function Login(){
       progress: undefined,
       theme: "colored",
       });
-    
-
+  
 
   }
 
