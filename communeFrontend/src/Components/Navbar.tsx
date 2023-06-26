@@ -30,7 +30,7 @@ const NavbarTrue = () => {
            <img src={profile} className='h-8 w-8' alt="Profile" />
             <span className=' block ml-2 text-black font-medium uppercase leading-normal text-primary mb-1'>
               {
-              username  ? JSON.parse(username).email : ''
+              username  ? username : ''
             }</span>
             <li className="mx-4">
               <Notifications/>
