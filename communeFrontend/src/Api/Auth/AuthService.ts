@@ -25,5 +25,6 @@ export const LoginUser = async (email:string , password:string) => {
 export const LogoutUser = async () => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('role');
     delete api.defaults.headers.common['Authorization'];
 }

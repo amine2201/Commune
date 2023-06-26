@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import logoWizara from '../assets/logoWizara.jpeg'
 import profile from '../assets/profile.png'
 import Notifications from './Notifications';
-import { api } from '../Api/Auth/AuthService';
+import { LogoutUser } from '../Api/Auth/AuthService';
 interface HeaderProps {
   isAuthenticated: boolean;
 }
@@ -10,11 +10,11 @@ const NavbarTrue = () => {
   const navigate = useNavigate()
   const username = localStorage.getItem('user') ;
   const handleLogout = async () => {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('user');
-    delete api.defaults.headers.common['Authorization'];
-    navigate('/')
-    window.location.reload();
+    LogoutUser().then(()=>{
+      navigate('/')
+      window.location.reload();
+    });
+
 }
 
   return (
