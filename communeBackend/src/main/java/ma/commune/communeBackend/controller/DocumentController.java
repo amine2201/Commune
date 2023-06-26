@@ -30,7 +30,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "${webapp}")
 @RequiredArgsConstructor
 public class DocumentController {
     private final CitizenRepo citizenRepo;
@@ -52,6 +51,7 @@ public class DocumentController {
                 file.transferTo(dest);
                 Document document=new Document();
                 document.setPath(filePath);
+                document.setName(fileName);
                 document.setDocumentType(documentType);
                 document.setCitizens(citizens);
                 document.setStatus(Status.PENDING);
@@ -86,7 +86,7 @@ public class DocumentController {
     @PostMapping("/documents/signer/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     @Transactional
-    public ResponseEntity<String> signDocument(@PathVariable("id") Long id){
+    public ResponseEntity<String> signDocument(@PathVariable("id") Long id,@RequestParam("file") MultipartFile file) throws IOException {
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -98,6 +98,9 @@ public class DocumentController {
             }
             else{
                 document.getSignees().add(citizen);
+                String filePath = document.getPath();
+                File dest = new File(filePath);
+                file.transferTo(dest);
                 notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen.getId(),document.getId());
             }
         }
@@ -128,8 +131,8 @@ public class DocumentController {
     }
     @GetMapping("/documents/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
-    public Document getDocumentById(@PathVariable Long id) {
-        return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+    public DocumentInfo getDocumentById(@PathVariable Long id) {
+        return getDocumentInfo(documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve")));
     }
 
     @PutMapping("/documents/{id}")
@@ -144,7 +147,9 @@ public class DocumentController {
     }
 
     private static DocumentInfo getDocumentInfo(Document document) {
-        return new DocumentInfo(document.getId(), document.getDocumentType(),
+        return new DocumentInfo(document.getId(),
+                document.getName(),
+                document.getDocumentType(),
                 document.getEmployee() != null ? document.getEmployee().getId() : null,
                 document.getCitizens().stream().map(Citizen::getId).toList()
                 ,document.getSignees().stream().map(Citizen::getId).toList(),
@@ -159,7 +164,6 @@ public class DocumentController {
         return "document " + id + " supprime avec succes";
     }
     @GetMapping("/download/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
         Document document =documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         Path fileLocation = Paths.get(document.getPath());

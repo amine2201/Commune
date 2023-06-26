@@ -2,13 +2,16 @@ import { Menu } from "@headlessui/react";
 import { Notification, NotificationType } from "../Types/types";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import notificationService from "../Api/services/NotificationService";
+
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/notifications')
-      .then(response => response.json())
-      .then(data => setNotifications(data));
+    notificationService.getNotifications().then((notifications) => {
+      setNotifications(notifications);
+    }).catch((error) => {
+      console.error(error);});
   }, []);
   return (
     <Menu as="div" className="relative inline-block text-left">

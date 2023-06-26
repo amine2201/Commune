@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "${webapp}")
 public class CitizenController {
     private CitizenRepo citizenRepo;
     private UserRepo userRepo;
@@ -32,13 +31,13 @@ public class CitizenController {
         this.userRepo=userRepo;
     }
 
-    @GetMapping("/citizens")
+    @GetMapping("/citoyens")
     @PreAuthorize("hasRole('ADMIN')")
     public List<CitizenInfo> getAllCitizens(){
         return citizenRepo.findAll().stream().map(citizen -> new CitizenInfo(citizen.getId(),citizen.getEmail(),citizen.getCin())).toList();
     }
 
-    @PostMapping("/citizens")
+    @PostMapping("/citoyens")
     public CitizenInfo saveCitizen(@Valid @RequestBody Citizen citizen){
         if(userRepo.findByEmail(citizen.getEmail()).isPresent())
             throw new CitizenFoundException("the email "+ citizen.getEmail()+" already exists");
@@ -48,7 +47,7 @@ public class CitizenController {
         Citizen citizen1 = citizenRepo.save(citizen);
         return new CitizenInfo(citizen1.getId(),citizen1.getEmail(),citizen1.getCin());
     }
-    @PutMapping("/citizens/{id}")
+    @PutMapping("/citoyens/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     public ResponseEntity<CitizenInfo> updateCitizenById(@PathVariable long id, @Valid @RequestBody Citizen citizenUpdated){
         Citizen citizen = citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
@@ -62,7 +61,7 @@ public class CitizenController {
         citizenRepo.save(citizen);
         return ResponseEntity.ok(new CitizenInfo(citizen.getId(),citizen.getEmail(),citizen.getCin()));
     }
-    @DeleteMapping("/citizens/{id}")
+    @DeleteMapping("/citoyens/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String,Boolean>> deleteCitizenById(@PathVariable long id){
         Citizen citizen = citizenRepo.findById(id).orElseThrow(()->new CitizenNotFoundException("citizen "+id+" not found"));
@@ -72,7 +71,7 @@ public class CitizenController {
         return  ResponseEntity.ok(map);
     }
 
-    @GetMapping("/citizens/{id}")
+    @GetMapping("/citoyens/{id}")
     public ResponseEntity<CitizenInfo> getCitizenById(@PathVariable Long id) {
         Citizen citizen = citizenRepo.findById(id).orElseThrow(()-> new CitizenNotFoundException("citizen "+id+" not found"));
         return ResponseEntity.ok(new CitizenInfo(citizen.getId(), citizen.getEmail(), citizen.getCin()));

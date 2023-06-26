@@ -15,7 +15,7 @@ import ErrorPage from './Components/ErrorPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {  AuthContextProvider } from './Api/Auth/AuthContext';
 import SignComponent from './Components/SignComponent';
-import AdminDashboard from './Components/AdminDashBoard';
+import AdminDashboard from './Components/AdminDashboard';
 import UpdateUser from './Components/UpdateUser';
 
 const queryClient = new QueryClient();
@@ -36,18 +36,17 @@ return (
                 <Route path="/Employeedashboard" element={<EmployeeDashboard />} />
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="/" element={<Homepage />} />
-                <Route path="/signer" element={<SignComponent />} />
-                
+                <Route path="/signer/:id" element={<SignComponent />} />
+                <Route path="/Admin" element={<AdminDashboard />} />
+                <Route path="/update/:id" element={<UpdateUser />} />
                 
        </>
        :
         <>
-                 <Route path="/Admin" element={<AdminDashboard />} />
-                 <Route path="/update/:id" element={<UpdateUser />} />
+                
                 <Route path="/" element={<Homepage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Signup" element={<Signup />} />
-                <Route path="/signer" element={<SignComponent />} />
         </>
 
       }

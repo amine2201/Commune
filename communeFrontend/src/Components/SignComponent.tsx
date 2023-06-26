@@ -1,12 +1,24 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import PdfViewerComponent from './PdfViewerComponent';
 import Navbar from './Navbar';
-import { useState } from 'react';
+import {  useState } from 'react';
+import { useParams } from 'react-router-dom';
+import documentService from '../Api/services/DocumentService';
+
 const SignComponent=()=> {
+        const id=useParams().id;
         const [isSigned, setIsSigned] = useState(false);
         const [buffer, setBuffer] = useState(null);
-        const props={document:"document.pdf",setIsSigned:setIsSigned,setBuffer:setBuffer};
-	const handleClick =()=>{if(buffer!=null) console.log(buffer);}
+        const props={id:id,setIsSigned:setIsSigned,setBuffer:setBuffer};
+
+	const handleClick =()=>{if(buffer!=null) {
+                const blob = new Blob([buffer]);
+                const file = new File([blob], "fichier", {type: "application/pdf"});
+                documentService.signDocument(parseInt(id?id:"0"),file).then((res)=>{
+                        console.log(res);
+                })
+        }
+        }
         return (
         <>
         <Navbar isAuthenticated={true}/>	

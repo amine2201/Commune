@@ -13,4 +13,5 @@ logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.security.web.access.ExceptionTranslationFilter: TRACE
-webapp: http://localhost:5173
+webapp1: http://localhost:5173
+webapp2: http://localhost:5174
