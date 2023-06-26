@@ -32,7 +32,7 @@ const NavbarTrue = () => {
               {
               username  ? JSON.parse(username).email : ''
             }</span>
-            <li>
+            <li className="mx-4">
               <Notifications/>
             </li>
   </li>

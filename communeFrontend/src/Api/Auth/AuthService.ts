@@ -27,3 +27,15 @@ export const LogoutUser = async () => {
     localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
 }
+axios.interceptors.request.use(
+    config => {
+      const token = localStorage.getItem('jwtToken');
+      if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token
+      }
+      return config
+    },
+    error => {
+      Promise.reject(error)
+    }
+  )

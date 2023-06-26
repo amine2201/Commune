@@ -14,3 +14,16 @@ export type uploadData = {
     CINs : string[],
     
 } 
+export enum notificationType  {
+    documentToSign = "DOCUMENT_TO_SIGN",
+    documentApproved = "DOCUMENT_APPROVED",
+    documentRejected = "DOCUMENT_REJECTED"
+}
+
+export type notification={
+    id:string,
+    message:string,
+    type:notificationType,
+    citoyenId:string,
+    documentId:string
+}
