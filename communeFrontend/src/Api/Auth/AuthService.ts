@@ -1,17 +1,17 @@
 
 import axios from 'axios';
-import { userType } from '../../Types/types';
+import { Citoyen, User } from '../../Types/types';
 
 export const api = axios.create({baseURL: 'http://localhost:8080/api/v1'},);
 api.defaults.headers.common["Content-Type"] = "application/json";
-export const SignupUser = async (userData : userType) => {
+export const SignupCitoyen = async (citoyen : Citoyen) => {
     try {
-        const {data} = await api.post('/register', userData);
+        const {data} = await api.post('/register', citoyen);
         return data;
     }   catch (error) { console.dir("SIGN UP ERROR : ",error); }
 }
 
-export const LoginUser = async ({email , password} : userType) => {
+export const LoginUser = async ({email , password} : User) => {
     try {
         const {data} = await api.post('/authenticate', {email , password});
         const {token} = data;
@@ -27,15 +27,3 @@ export const LogoutUser = async () => {
     localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
 }
-axios.interceptors.request.use(
-    config => {
-      const token = localStorage.getItem('jwtToken');
-      if (token) {
-        config.headers['Authorization'] = 'Bearer ' + token
-      }
-      return config
-    },
-    error => {
-      Promise.reject(error)
-    }
-  )

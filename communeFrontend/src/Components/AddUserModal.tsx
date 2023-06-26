@@ -1,15 +1,14 @@
 
 import { Dialog , Transition } from '@headlessui/react'
 import { ChangeEvent, Fragment, useState } from 'react'
-import { userType } from '../Types/types'
+import { User } from '../Types/types'
 
 const AddUserModal =()=>{ 
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const closeModal = () => { setIsOpen(false) ;  window.location.reload();}
-    const [user,setUser] = useState<userType>({
+    const [user,setUser] = useState<User>({
         email:'',
-        password:'',
-        cin:''
+        password:''
     });   
     const onSubmitForm = async (e : React.SyntheticEvent) => {
         e.preventDefault()

@@ -1,10 +1,10 @@
 import { Menu } from "@headlessui/react";
-import { notification, notificationType } from "../Types/types";
+import { Notification, NotificationType } from "../Types/types";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState<notification[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/notifications')
       .then(response => response.json())
@@ -25,7 +25,7 @@ const Notifications = () => {
           {notifications.map((notification)=>(<Menu.Item key={notification.id}>
             {({ active }) => (
               <Link
-                to={notification.type== notificationType.documentToSign? '/signer':'/CitizenDashboard'}
+                to={notification.type== NotificationType.documentToSign? '/signer':'/CitizenDashboard'}
                 className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'} block px-4 py-2 text-sm`}
               >
                 {notification.message}

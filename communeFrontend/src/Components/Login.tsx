@@ -1,7 +1,7 @@
 import logoWizara from '../assets/logoWizara.jpeg'
 import '../App.css'
 import {  Link, useNavigate } from "react-router-dom";
-import { userType } from "../Types/types";
+import { User } from "../Types/types";
 import { ChangeEvent, SyntheticEvent , useState } from 'react';
 import { api } from '../Api/Auth/AuthService';
 
@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Login(){
   
   const navigate = useNavigate()
-  const [user,setUser] = useState<userType>(
+  const [user,setUser] = useState<User>(
     {
       email:'',
       password:''
