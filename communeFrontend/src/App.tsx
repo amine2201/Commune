@@ -34,7 +34,7 @@ return (
                 <Route path="/Employeedashboard" element={<EmployeeDashboard />} />
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="/" element={<Homepage />} />
-                <Route path="/signer" element={<SignComponent />} />
+                <Route path="/signer/:id" element={<SignComponent />} />
                 <Route path="/Admin" element={<AdminDashboard />} />
        </>
        :

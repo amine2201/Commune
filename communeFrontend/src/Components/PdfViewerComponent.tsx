@@ -7,9 +7,11 @@ const setIsSigned=props.setIsSigned;
 const setBuffer=props.setBuffer;
 const containerRef = useRef(null);
 let instance:any, PSPDFKit: any ;
+const id=props.id;
 
 useEffect(() => {
 	const container = containerRef.current;
+	const documentUrl = `http://localhost:8080/api/v1/download/${id}`;
 	
 	(async function() {
 		PSPDFKit = await import("pspdfkit");
@@ -18,7 +20,7 @@ useEffect(() => {
 		// Container where PSPDFKit should be mounted.
 		container,
 		// The document to open.
-		document: props.document,
+		document: documentUrl,
 		// Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
 		baseUrl: `${window.location.protocol}//${window.location.host}//`
 		});

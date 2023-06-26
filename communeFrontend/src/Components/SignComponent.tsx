@@ -2,10 +2,13 @@
 import PdfViewerComponent from './PdfViewerComponent';
 import Navbar from './Navbar';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 const SignComponent=()=> {
+        const id=useParams().id;
         const [isSigned, setIsSigned] = useState(false);
         const [buffer, setBuffer] = useState(null);
-        const props={document:"document.pdf",setIsSigned:setIsSigned,setBuffer:setBuffer};
+        const props={id:id,setIsSigned:setIsSigned,setBuffer:setBuffer};
 	const handleClick =()=>{if(buffer!=null) console.log(buffer);}
         return (
         <>

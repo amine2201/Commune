@@ -26,7 +26,20 @@ export enum DocumentType {
     legalisation = "LEGALISATION",
     certification = "CERTIFICATION",
 }
-
+export type Document = {
+    id?: number,
+    name?: string,
+    type: DocumentType,
+    employeeId?: string,
+    citoyenIds?: string[],
+    signeesIds?: string[],
+    status?: DocumentStatus
+}
+export enum DocumentStatus {
+    pending = "PENDING",
+    approved = "APPROVED",
+    rejected = "REJECTED"
+}
 export type UploadData = {
     _file? : File ,
     documentType? : DocumentType,

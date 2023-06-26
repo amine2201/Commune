@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/municipality")
-@CrossOrigin(origins = "${webapp}")
+@RequestMapping("/api/v1")
 public class MunicipalityController{
     private final MunicipalityRepo municipalityRepo;
     @Autowired

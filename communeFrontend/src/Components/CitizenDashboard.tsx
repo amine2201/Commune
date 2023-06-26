@@ -1,19 +1,22 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import Navbar from "./Navbar";
 import {Column , useTable} from 'react-table';
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Document } from "../Types/types";
+import { useNavigate } from "react-router-dom";
+import documentService from "../Api/services/DocumentService";
 
 const Columns = [ {
     Header: 'Fichiers',
     accessor: 'fichier'
 },
 {
-    Header: 'Crée le',
-    accessor: 'crée le'
-},
-{
     Header: 'Nombre de signataires',
     accessor: 'nombre de signataires'
+},
+{
+    Header: 'Signé par',
+    accessor: 'nombre de signatures'
 },
 {
     Header: 'Type de service',
@@ -28,23 +31,37 @@ const Columns = [ {
 ] as Column[];
 
 
-const data = [
-{
-  nom: "John Doe",
-  fichier: "fichier1.pdf",
-  "crée le": "2023-05-22",
-  "nombre de signataires": 10,
-  "Type de service": "Certification",
-  status: "en cours",
-},]
+
+const data:any= []
 
 
 const CitizenDashboard = ()=>{
+  const [documents, setDocuments] = useState<Document[]>([]);
+  useEffect(() => {
+    documentService.getDocuments().then((documents) => { 
+      setDocuments(documents);
+    }).catch((error) => {
+      console.error(error);});
+  }, []);
+  useEffect(() => {
+      if (!documents) return;
+      documents.forEach((doc:Document) => {
+        data.push({
+          id: doc.id?doc.id:0,
+          fichier: doc.name?doc.name:'unknown',
+          'nombre de signataires': doc.citoyenIds?doc.citoyenIds.length:0,
+          'nombre de signatures': doc.citoyenIds?doc.citoyenIds.length:0,
+          'Type de service': doc.type,
+          status: doc.status?doc.status.toString():'en cours'
+        })
+      });
+     console.log(data); 
+    }, [documents]);
+    const nav = useNavigate();
     const userData = useMemo(() => data, []);
-	const columns = useMemo(()=>Columns,
-        [])
-    const { getTableProps , getTableBodyProps , headerGroups , rows , prepareRow }= useTable({ columns, data:userData })
-  
+    const columns = useMemo(()=>Columns,[])
+    const { getTableProps , getTableBodyProps , headerGroups , rows , prepareRow }= useTable<any>({ columns, data:userData })
+        
     return (
         <>
           <>
@@ -85,13 +102,16 @@ const CitizenDashboard = ()=>{
                                 </tr>)))}
 							
 						</thead>
-						<tbody {...getTableBodyProps()} >
+						<tbody  {...getTableBodyProps()} >
 							
-  {rows.map((row) => {
+  {  rows.map((row) => {
     prepareRow(row);
 	
     return (
-      <tr {...row.getRowProps()} className="px-5 py-5 border-b border-gray-200 bg-white text-sm ">
+      <tr {...row.getRowProps()} className="px-5 py-5 border-b border-gray-200 bg-white text-sm "
+      onClick={() => {
+        nav(`/signer/${row.original.id}`);
+    }}>
         {row.cells.map((cell) => {
 			switch(cell.value){
 				case "accepté": return (<span {...cell.getCellProps()}
