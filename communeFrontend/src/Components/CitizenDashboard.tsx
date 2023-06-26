@@ -2,7 +2,6 @@
 import Navbar from "./Navbar";
 import {Column , useTable} from 'react-table';
 import { useEffect, useMemo, useState } from "react";
-import { Document } from "../Types/types";
 import { useNavigate } from "react-router-dom";
 import documentService from "../Api/services/DocumentService";
 

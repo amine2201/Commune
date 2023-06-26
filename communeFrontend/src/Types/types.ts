@@ -26,8 +26,8 @@ export enum DocumentType {
     legalisation = "LEGALISATION",
     certification = "CERTIFICATION",
 }
-export type Document = {
-    id?: number,
+export type document = {
+    id?: number | undefined,
     name?: string,
     type: DocumentType,
     employeeId?: string,

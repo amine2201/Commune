@@ -1,19 +1,95 @@
 {
   "users": [
     {
+      "id": 1,
+      "email": "pls@gmail.com",
+      "cin": "kposcosdspd"
+    },
+    {
       "id": 2,
-      "email": "diditchange@gmail.com",
-      "cin": "hellyeah"
+      "email": "okeru@gmail.com",
+      "cin": "skfaoijfis"
+    }
+  ],
+  "documents": [
+    {
+      "id": 1,
+      "name": "Document1.pdf",
+      "type": 
+         "CERTIFICATION"
+      ,
+      "employeeId": "123",
+      "citoyenIds": [
+        "citoyen1",
+        "citoyen2"
+      ],
+      "signeesIds": [
+        "signee1",
+        "signee2"
+      ],
+      "status": 
+      "PENDING"
+        
+    
+    },
+    {
+      "id": 2,
+      "name": "Document2.pdf",
+      "type": 
+        "LEGALISATION",
+       
+     
+      "employeeId": "456",
+      "citoyenIds": [
+        "citoyen3",
+        "citoyen4"
+      ],
+      "signeesIds": [
+        "signee3",
+        "signee4"
+      ],
+      "status": 
+        "PENDING"
+       
+   
     },
     {
       "id": 3,
-      "email": "changw2@gmail.com",
-      "cin": "gbfbgb"
+      "name": "Document3.pdf",
+      "type": 
+       
+        "CERTIFICATION"
+     ,
+      "employeeId": "789",
+      "citoyenIds": [
+        "citoyen5",
+        "citoyen6"
+      ],
+      "signeesIds": [
+        "signee5",
+        "signee6"
+      ],
+      "status": 
+       "REJECTED"
     },
     {
-      "id": 5,
-      "email": "smkscmc@gmail.com",
-      "cin": "jiofjwio"
+      "id": 4,
+      "name": "Document4.pdf",
+      "type": 
+      "LEGALISATION"
+   ,
+      "employeeId": "101112",
+      "citoyenIds": [
+        "citoyen7",
+        "citoyen8"
+      ],
+      "signeesIds": [
+        "signee7",
+        "signee8"
+      ],
+      "status": 
+        "PENDING"
+     
     }
   ]
 }
