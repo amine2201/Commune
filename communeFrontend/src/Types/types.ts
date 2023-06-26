@@ -46,6 +46,11 @@ export type UploadData = {
     CINs : string[],
     
 } 
+export type Userdata = {
+    id?: number | undefined,
+    email: string,
+    cin?: string,
+    role?: string, }
 export enum NotificationType  {
     documentToSign = "DOCUMENT_TO_SIGN",
     documentApproved = "DOCUMENT_APPROVED",

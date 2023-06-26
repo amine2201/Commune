@@ -3,13 +3,14 @@ import { Dialog , Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
 
-const DeleteUserModal =()=>{ 
+const DeleteUserModal =({userId , handleDelete} : any)=>{ 
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const closeModal = () => { setIsOpen(false) ;  window.location.reload();}
     
     const onSubmitForm = async (e : React.SyntheticEvent) => {
         e.preventDefault()
-
+        handleDelete(userId) ;
+        closeModal() ;
     }  
     
     return (
