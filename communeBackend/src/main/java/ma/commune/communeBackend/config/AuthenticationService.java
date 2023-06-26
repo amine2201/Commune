@@ -27,7 +27,7 @@ public class AuthenticationService {
         var savedCitizen= citizenRepo.save(citizen);
         var jwtToken = jwtService.generateToken(savedCitizen);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token(jwtToken).role(savedCitizen.getRole())
                 .build();
     }
 
@@ -42,7 +42,7 @@ public class AuthenticationService {
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token(jwtToken).role(user.getRole())
                 .build();
     }
 }

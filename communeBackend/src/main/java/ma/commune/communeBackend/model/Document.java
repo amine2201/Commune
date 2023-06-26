@@ -35,11 +35,11 @@ public class Document {
     private Employee employee;
 
     @Column(name = "citoyens")
-    @OneToMany
+    @ManyToMany
     private List<Citizen> citizens;
 
     @Column(name = "signe")
-    @OneToMany
+    @ManyToMany
     private List<Citizen> signees;
 
     @Column(name = "status")
