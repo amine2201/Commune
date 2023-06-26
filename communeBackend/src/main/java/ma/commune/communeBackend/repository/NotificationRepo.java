@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface NotificationRepo extends JpaRepository<Notification, Long> {
     Optional<Notification> findNotificationByCitizenId(Long citizenId);
+    Long deleteNotificationByCitizenIdAndDocumentId(Long citizenId, Long documentId);
 }

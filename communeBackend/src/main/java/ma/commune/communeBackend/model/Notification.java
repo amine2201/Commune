@@ -1,7 +1,6 @@
 package ma.commune.communeBackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,9 +15,11 @@ public class Notification {
     private String message;
     @ManyToOne
     private Citizen citizen;
+    @ManyToOne
+    private Document document;
     public Notification(NotificationType type) {
         this.type = type;
-        if(type.equals(NotificationType.DOCUMENT_DECLINED)){
+        if(type.equals(NotificationType.DOCUMENT_REJECTED)){
             this.message = "Document decline";
         }
         else if(type.equals(NotificationType.DOCUMENT_APPROVED)){
@@ -31,7 +32,7 @@ public class Notification {
 
     public void setType(NotificationType type) {
         this.type = type;
-        if(type.equals(NotificationType.DOCUMENT_DECLINED)){
+        if(type.equals(NotificationType.DOCUMENT_REJECTED)){
             this.message = "Document decline";
         }
         else if(type.equals(NotificationType.DOCUMENT_APPROVED)){

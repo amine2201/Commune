@@ -5,13 +5,13 @@ import contract from '../assets/contract.jpg'
 import add from '../assets/add.png' 
 import { ChangeEvent, useEffect, useState  } from "react"
 import cancel2 from '../assets/cancel2.jpg'
-import { documentType, uploadData } from "../Types/types"
+import { DocumentType, UploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
 
 
 const Service =  () => {
    
-   const [upload , setUpload] = useState<uploadData>({
+   const [upload , setUpload] = useState<UploadData>({
         CINs : [],
    })
     const [file,setFile] = useState<File >()
@@ -61,12 +61,12 @@ const Service =  () => {
       const handleRadioButtonChange = (e:ChangeEvent<HTMLInputElement>)=>{
         if (e.target.value === "CERTIFICATION"){
           setChecked(true)
-          setUpload((prev) => ({...prev, documentType : documentType.certification}))
+          setUpload((prev) => ({...prev, documentType : DocumentType.certification}))
           
         }
         else {
           setChecked(true)
-          setUpload((prev) => ({...prev, documentType : documentType.legalisation}))
+          setUpload((prev) => ({...prev, documentType : DocumentType.legalisation}))
     
         }
       }

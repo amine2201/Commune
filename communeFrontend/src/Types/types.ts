@@ -1,16 +1,35 @@
-export type userType = {
-   email: string,
-    password: string,
-    cin?: string,
+
+
+export type User = {
+    id?: string,
+    email: string,
+    password: string
+    userType?: userType
 }
-export enum documentType {
+export enum userType {
+    citoyen = "CITOYEN",
+    admin = "ADMIN",
+    employee = "EMPLOYEE"
+}
+export type Citoyen = User & {
+    firstName?: string,
+    lastName?: string,
+    cin: string
+}
+export type Employee = User & {
+    firstName: string,
+    lastName: string
+}
+
+
+export enum DocumentType {
     legalisation = "LEGALISATION",
     certification = "CERTIFICATION",
 }
 
-export type uploadData = {
+export type UploadData = {
     _file? : File ,
-    documentType? : documentType,
+    documentType? : DocumentType,
     CINs : string[],
     
 } 
@@ -18,5 +37,17 @@ export type Userdata = {
     id?: number | undefined,
     email: string,
     cin?: string,
-    role?: string,
+    role?: string, }
+export enum NotificationType  {
+    documentToSign = "DOCUMENT_TO_SIGN",
+    documentApproved = "DOCUMENT_APPROVED",
+    documentRejected = "DOCUMENT_REJECTED"
+}
+
+export type Notification={
+    id:string,
+    message:string,
+    type:NotificationType,
+    citoyenId:string,
+    documentId:string
 }

@@ -1,5 +1,6 @@
 package ma.commune.communeBackend.controller;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import ma.commune.communeBackend.exception.CitizenExceptions.CitizenNotFoundException;
 import ma.commune.communeBackend.exception.DocumentExceptions.DocumentNotFoundException;
@@ -7,8 +8,11 @@ import ma.commune.communeBackend.model.*;
 import ma.commune.communeBackend.model.record.DocumentInfo;
 import ma.commune.communeBackend.repository.CitizenRepo;
 import ma.commune.communeBackend.repository.DocumentRepo;
+import ma.commune.communeBackend.repository.NotificationRepo;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +35,9 @@ import java.util.List;
 public class DocumentController {
     private final CitizenRepo citizenRepo;
     private final DocumentRepo documentRepo;
+    private final NotificationRepo notificationRepo;
     @PostMapping("/documents")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     public String saveFile(@RequestParam("file") MultipartFile file
             , @RequestParam("DocumentType") DocumentType documentType, @RequestParam List<String> cins) {
         if (!file.isEmpty()) {
@@ -46,7 +55,14 @@ public class DocumentController {
                 document.setDocumentType(documentType);
                 document.setCitizens(citizens);
                 document.setStatus(Status.PENDING);
-                documentRepo.save(document);
+                document=documentRepo.save(document);
+                for(Citizen citizen : citizens){
+                    Notification notification=new Notification();
+                    notification.setCitizen(citizen);
+                    notification.setType(NotificationType.DOCUMENT_TO_SIGN);
+                    notification.setDocument(document);
+                    notificationRepo.save(notification);
+                }
                 return "File uploaded successfully";
             } catch (IOException e) {
                 e.printStackTrace();
@@ -69,6 +85,7 @@ public class DocumentController {
     }
     @PostMapping("/documents/signer/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
+    @Transactional
     public ResponseEntity<String> signDocument(@PathVariable("id") Long id){
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
@@ -81,6 +98,7 @@ public class DocumentController {
             }
             else{
                 document.getSignees().add(citizen);
+                notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen.getId(),document.getId());
             }
         }
         documentRepo.save(document);
@@ -96,17 +114,26 @@ public class DocumentController {
             }
             else{
                 document.setStatus(status);
+                for(Citizen citizen : document.getCitizens()){
+                    Notification notification=new Notification();
+                    notification.setCitizen(citizen);
+                    notification.setType(document.getStatus().equals(Status.APPROVED)?NotificationType.DOCUMENT_APPROVED:NotificationType.DOCUMENT_REJECTED);
+                    notification.setDocument(document);
+                    notificationRepo.save(notification);
+                }
             }
         }
         documentRepo.save(document);
         return ResponseEntity.status(HttpStatus.OK).body("document"+id+" status changee avec succes");
     }
     @GetMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
     public Document getDocumentById(@PathVariable Long id) {
         return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
     }
 
     @PutMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public DocumentInfo updateDocument(@PathVariable Long id, @RequestBody Document document) {
         Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         document1.setDocumentType(document.getDocumentType());
@@ -125,9 +152,25 @@ public class DocumentController {
     }
 
     @DeleteMapping("/documents/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String deleteDocument(@PathVariable Long id) {
         Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
         documentRepo.delete(document);
         return "document " + id + " supprime avec succes";
+    }
+    @GetMapping("/download/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
+        Document document =documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+        Path fileLocation = Paths.get(document.getPath());
+        Resource resource = new UrlResource(fileLocation.toUri());
+
+        if(resource.exists() || resource.isReadable()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } else {
+            throw new RuntimeException("Could not read the file!");
+        }
     }
 }
