@@ -33,6 +33,12 @@ const documentService = {
     fetchDocument: async (documentId:Number) => {
         const response = await api.get(`/download/${documentId}`);
         return response.data;
+    },
+    signDocument: async (documentId:Number,file:File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response= await api.post(`/documents/signer/${documentId}`, formData);
+        return response.data;
     }
 };
 export default documentService;

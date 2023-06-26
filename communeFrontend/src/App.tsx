@@ -15,7 +15,7 @@ import ErrorPage from './Components/ErrorPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {  AuthContextProvider } from './Api/Auth/AuthContext';
 import SignComponent from './Components/SignComponent';
-import AdminDashboard from './Components/AdminDashBoard';
+import AdminDashboard from './Components/AdminDashboard';
 
 const queryClient = new QueryClient();
 function App() {
@@ -46,7 +46,6 @@ return (
                 <Route path="/" element={<Homepage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Signup" element={<Signup />} />
-                <Route path="/signer" element={<SignComponent />} />
         </>
 
       }

@@ -86,7 +86,7 @@ public class DocumentController {
     @PostMapping("/documents/signer/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
     @Transactional
-    public ResponseEntity<String> signDocument(@PathVariable("id") Long id){
+    public ResponseEntity<String> signDocument(@PathVariable("id") Long id,@RequestParam("file") MultipartFile file) throws IOException {
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -98,6 +98,9 @@ public class DocumentController {
             }
             else{
                 document.getSignees().add(citizen);
+                String filePath = document.getPath();
+                File dest = new File(filePath);
+                file.transferTo(dest);
                 notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen.getId(),document.getId());
             }
         }
@@ -128,8 +131,8 @@ public class DocumentController {
     }
     @GetMapping("/documents/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
-    public Document getDocumentById(@PathVariable Long id) {
-        return documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+    public DocumentInfo getDocumentById(@PathVariable Long id) {
+        return getDocumentInfo(documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve")));
     }
 
     @PutMapping("/documents/{id}")
