@@ -13,7 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -118,7 +117,7 @@ public class DocumentController {
                 for(Citizen citizen : document.getCitizens()){
                     Notification notification=new Notification();
                     notification.setCitizen(citizen);
-                    notification.setType(document.getStatus().equals(Status.APPROVED)?NotificationType.DOCUMENT_APPROVED:NotificationType.DOCUMENT_DECLINED);
+                    notification.setType(document.getStatus().equals(Status.APPROVED)?NotificationType.DOCUMENT_APPROVED:NotificationType.DOCUMENT_REJECTED);
                     notification.setDocument(document);
                     notificationRepo.save(notification);
                 }
