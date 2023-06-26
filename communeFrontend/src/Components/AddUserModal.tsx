@@ -1,23 +1,30 @@
 
 import { Dialog , Transition } from '@headlessui/react'
-import { ChangeEvent, Fragment, useState } from 'react'
-import { userType } from '../Types/types'
+import { ChangeEvent, Fragment, useEffect, useState } from 'react'
+import { Userdata, userType } from '../Types/types'
+
 
 const AddUserModal =()=>{ 
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const closeModal = () => { setIsOpen(false) ;  window.location.reload();}
-    const [user,setUser] = useState<userType>({
-        email:'',
-        password:'',
-        cin:''
+    const [user,setUser] = useState<Userdata>({
+      id:0,
+      email:'',
+      cin:'',
+        
     });   
-    const onSubmitForm = async (e : React.SyntheticEvent) => {
-        e.preventDefault()
-
+    const onSubmitForm = (e : React.SyntheticEvent) => {
+        e.preventDefault();
+        closeModal();
     }  
     const onChangeInput = (e:ChangeEvent<HTMLInputElement>)=>{
         const {name ,value } = e.target 
-        setUser({...user,[name]:value}) }  
+        setUser({...user,[name]:value})
+       
+      }  
+      useEffect(() => {
+        console.log(user)
+      },[user])
     return (
         <>
           <div className="fixed inset-0 flex items-center justify-center">
@@ -63,8 +70,8 @@ const AddUserModal =()=>{
                           <input type="email" value={user.email} name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "onChange={onChangeInput}  placeholder="name@company.com" required/>
                       </div>
                       <div>
-                          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe</label>
-                          <input type="password" value={user.password} name="password" id="password" onChange={onChangeInput} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                          <label htmlFor="cin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Votre CIN</label>
+                          <input type="text" value={user.cin} name="cin" id="cin" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="L2490DB1" onChange={onChangeInput} required/>
                       </div>
                       <div className="flex items-center justify-between">
                          

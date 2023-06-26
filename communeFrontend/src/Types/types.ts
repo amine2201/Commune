@@ -14,3 +14,9 @@ export type uploadData = {
     CINs : string[],
     
 } 
+export type Userdata = {
+    id?: number | undefined,
+    email: string,
+    cin?: string,
+    role?: string,
+}
