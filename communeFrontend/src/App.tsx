@@ -32,7 +32,7 @@ return (
       {
         isUserLoggedIn ?
         <>
-        <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
+                <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
                 <Route path="/Service" element={<Service />} />
                 <Route path="/EmployeeDashboard" element={<EmployeeDashboard />} />
                 <Route path="*" element={<ErrorPage />} />

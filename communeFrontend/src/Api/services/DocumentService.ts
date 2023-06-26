@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Citoyen } from '../../Types/types';
+import { Citoyen, DocumentStatus } from '../../Types/types';
 
 
 const BASE_URL = 'http://localhost:8080/api/v1';
@@ -38,6 +38,10 @@ const documentService = {
         const formData = new FormData();
         formData.append("file", file);
         const response= await api.post(`/documents/signer/${documentId}`, formData);
+        return response.data;
+    },
+    validateDocument: async (documentId:Number,status:DocumentStatus) => {
+        const response = await api.post(`/documents/valider/${documentId}?status=${status}`);
         return response.data;
     }
 };

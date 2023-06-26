@@ -84,7 +84,7 @@ public class DocumentController {
 
     }
     @PostMapping("/documents/signer/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN','EMPLOYEE')")
     @Transactional
     public ResponseEntity<String> signDocument(@PathVariable("id") Long id,@RequestParam("file") MultipartFile file) throws IOException {
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" not found"));
@@ -117,6 +117,8 @@ public class DocumentController {
             }
             else{
                 document.setStatus(status);
+                Employee employee = (Employee) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+                document.setEmployee(employee);
                 for(Citizen citizen : document.getCitizens()){
                     Notification notification=new Notification();
                     notification.setCitizen(citizen);
