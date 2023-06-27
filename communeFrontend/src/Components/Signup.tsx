@@ -23,6 +23,7 @@ export default function Signup(){
     e.preventDefault()
     try {
         await mutateAsync({ email: user.email, password: user.password, cin: user.cin });
+        navigate('/login')
         } catch (error) {
         console.log(error);
       }

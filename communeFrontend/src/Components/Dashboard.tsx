@@ -129,7 +129,7 @@ const Dashboard = () => {
                            
 
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  <div className="flex items-center justify-center ">
+  <div className="flex ">
                         
     <Link  to={`/signer/${doc.id}`} className="w-6 h-8 mr-2 transform hover:text-green-500 hover:scale-110 text-green-400 cursor-pointer" >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -2,9 +2,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Userdata } from "../Types/types";
+import Navbar from "./Navbar";
 
-const UpdateUser = () => {
+const UpdateCitizen = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [user,setUser] = useState({
@@ -13,7 +13,7 @@ const UpdateUser = () => {
         cin:'',
     })
     useEffect(()=>{
-        axios.get(`http://localhost:4001/users/${id}`)
+        axios.get(`http://localhost:4000/users/${id}`)
         .then(res => setUser({...user,email:res.data.email,cin:res.data.cin}))
         .catch(err => console.log(err))
     } , [])
@@ -24,14 +24,15 @@ const UpdateUser = () => {
         setUser(newUser)}
     const onSubmitForm = async (e : React.SyntheticEvent) => {
         e.preventDefault();
-        await axios.put(`http://localhost:4001/users/${id}`,user)
+        await axios.put(`http://localhost:4000/users/${id}`,user)
         navigate('/Admin')
     }
     return (
         <div>
-          <section className="bg-white dark:bg-gray-900">
+            <Navbar isAuthenticated={true}/>
+          <section className=" mt-20 bg-white flex flex-col justify-center align-center mx-auto w-[45vw] rounded-xl">
   <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-      <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Mise à jour d'un utilisateur </h2>
+      <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Mise à jour d'un citoyen </h2>
       <form onSubmit={onSubmitForm}>
           <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
               <div className="sm:col-span-2">
@@ -61,4 +62,4 @@ const UpdateUser = () => {
         </div>
     )
 }
-export default UpdateUser ;
+export default UpdateCitizen ;

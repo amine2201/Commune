@@ -197,7 +197,7 @@ const EmployeeDashboard = () => {
           );
         })}
 		<td className="px-5 py-5  border-b border-gray-200 bg-white ">
-		<div className="flex item-center justify-center">
+		<div className="flex ">
                                         <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 text-purple-200 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

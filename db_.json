@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "plswork@gmail.com",
+      "cin": "kposcosdspd"
+    },
+    {
+      "id": 2,
+      "email": "whytho@gmail.com",
+      "cin": "ijsodvjsiod"
+    },
+    {
+      "id": 3,
+      "email": "simo@gmail.com",
+      "cin": "ojcsospjps"
+    },
+    {
+      "id": 4,
+      "email": "UNCLEM@gmail.com",
+      "cin": "dsjdsiojsivdj"
+    }
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "pls@gmail.com",
+      "password": "123"
+    },
+    {
+      "id": 2,
+      "firstName": "simo",
+      "lastName": "el arfaoui",
+      "email": "oke@gmail.com",
+      "password": "123"
+    },
+    {
+      "id": 3,
+      "email": "changeit@gmail.com",
+      "password": "changeit",
+      "firstName": "SIMO",
+      "lastName": "THE DON"
+    }
+  ],
+  "documents": []
+}

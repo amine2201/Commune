@@ -5,8 +5,14 @@
       "name": "Sample Document",
       "type": "TypeA",
       "employeeId": "employee123",
-      "citoyenIds": ["citoyen1", "citoyen2"],
-      "signeesIds": ["signee1", "signee2"],
+      "citoyenIds": [
+        "citoyen1",
+        "citoyen2"
+      ],
+      "signeesIds": [
+        "signee1",
+        "signee2"
+      ],
       "status": "PENDING"
     },
     {
@@ -14,37 +20,34 @@
       "name": "Another Document",
       "type": "TypeB",
       "employeeId": "employee456",
-      "citoyenIds": ["citoyen3", "citoyen4"],
-      "signeesIds": ["signee3", "signee4"],
+      "citoyenIds": [
+        "citoyen3",
+        "citoyen4"
+      ],
+      "signeesIds": [
+        "signee3",
+        "signee4"
+      ],
       "status": "APPROVED"
     }
-  ]
-  ,
-  "users":[
+  ],
+  "users": [
     {
-        "id": "1",
-        "email": "email@g.c",
-        "password": "password",
-        "userType": "EMPLOYEE"
+      "id": "1",
+      "email": "schweps",
+      "cin": "pokdspk"
     },
     {
-        "id": "2",
-        "email": "email@g.c",
-        "password": "password",
-        "userType": "CITOYEN"
+      "id": "2",
+      "email": "email@g.c",
+      "password": "password",
+      "userType": "CITOYEN"
     },
     {
-        "id": "3",
-        "email": "email@g.c",
-        "password": "password",
-        "userType": "SIGNER"
+      "id": "3",
+      "email": "email@g.c",
+      "password": "password",
+      "userType": "SIGNER"
     }
   ]
-
-
 }
-
-
-
-
-
