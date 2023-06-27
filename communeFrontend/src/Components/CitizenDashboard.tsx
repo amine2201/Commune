@@ -31,7 +31,16 @@ const Columns = [ {
 
 
 
-const data:any= []
+const data:any= [
+    {
+        id: 1,
+        fichier: 'fichier1',
+        'nombre de signataires': 2,
+        'nombre de signatures': 2,
+        'Type de service': 'service1',
+        status: 'en cours'
+    }
+]
 
 
 const CitizenDashboard = ()=>{
@@ -43,19 +52,19 @@ const CitizenDashboard = ()=>{
     }).catch((error) => {
       console.error(error);});
   }, []);
-  useEffect(() => {
-      if (!documents) return;
-      documents.forEach((doc:Document) => {
-        data.push({
-          id: doc.id?doc.id:0,
-          fichier: doc.name?doc.name:'unknown',
-          'nombre de signataires': doc.citoyenIds?doc.citoyenIds.length:0,
-          'nombre de signatures': doc.citoyenIds?doc.citoyenIds.length:0,
-          'Type de service': doc.type,
-          status: doc.status?doc.status.toString():'en cours'
-        })
-      });
-    }, [documents]);
+  // useEffect(() => {
+  //     if (!documents) return;
+  //     documents.forEach((doc:Document) => {
+  //       data.push({
+  //         id: doc.id?doc.id:0,
+  //         fichier: doc.name?doc.name:'unknown',
+  //         'nombre de signataires': doc.citoyenIds?doc.citoyenIds.length:0,
+  //         'nombre de signatures': doc.citoyenIds?doc.citoyenIds.length:0,
+  //         'Type de service': doc.type,
+  //         status: doc.status?doc.status.toString():'en cours'
+  //       })
+  //     });
+  //   }, [documents]);
     const nav = useNavigate();
     const userData = useMemo(() => data, []);
     const columns = useMemo(()=>Columns,[])
@@ -112,15 +121,7 @@ const CitizenDashboard = ()=>{
         nav(`/signer/${row.original.id}`);
     }}>
         {row.cells.map((cell) => {
-			switch(cell.value){
-				case "accepté": return (<span {...cell.getCellProps()}
-				className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block mt-5 " > {cell.render('Cell')}</span>)
-				case "refusé": return (<span {...cell.getCellProps()}
-				className="bg-red-500 text-white-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5  " > {cell.render('Cell')}</span>)
-				case "en cours": return (<span {...cell.getCellProps()}
-				className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase  ml-1 block mt-5" > {cell.render('Cell')}</span>)
-				
-			}
+
 			
           return (
             <td {...cell.getCellProps()} className="  px-5 py-5  border-b border-gray-200 bg-white text-sm font-semibold">

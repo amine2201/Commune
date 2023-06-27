@@ -15,7 +15,7 @@ import ErrorPage from './Components/ErrorPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {  AuthContextProvider } from './Api/Auth/AuthContext';
 import SignComponent from './Components/SignComponent';
-import AdminDashboard from './Components/AdminDashBoard';
+import AdminDashboard from './Components/AdminDashboard';
 import UpdateUser from './Components/UpdateUser';
 import MycitizenDashboard from './Components/MyCitizenDashboard';
 
@@ -41,6 +41,7 @@ return (
                 <Route path="/Admin" element={<AdminDashboard />} />
                 <Route path="/update/:id" element={<UpdateUser />} />
                 <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
+                <Route path="/citizen" element={<MycitizenDashboard />} />
 
                 
        </>

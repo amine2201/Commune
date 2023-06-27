@@ -1,34 +1,27 @@
 {
-<<<<<<< HEAD
-  "posts": [
+  "documents": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
-=======
-  "users": [
-    {
-      "id": 2,
-      "email": "hereitis@gmail.com",
-      "cin": "djiosjdiov"
+      "name": "Sample Document",
+      "type": "TypeA",
+      "employeeId": "employee123",
+      "citoyenIds": ["citoyen1", "citoyen2"],
+      "signeesIds": ["signee1", "signee2"],
+      "status": "PENDING"
     },
     {
-      "id": 3,
-      "email": "isittime@gmail.com",
-      "cin": "sjiasjco"
+      "id": 2,
+      "name": "Another Document",
+      "type": "TypeB",
+      "employeeId": "employee456",
+      "citoyenIds": ["citoyen3", "citoyen4"],
+      "signeesIds": ["signee3", "signee4"],
+      "status": "APPROVED"
     }
   ]
->>>>>>> 54734e3960f5d65ae516b46ca30058fe86f4e032
+
 }
+
+
+
+

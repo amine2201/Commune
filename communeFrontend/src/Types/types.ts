@@ -29,10 +29,10 @@ export enum DocumentType {
 export type document = {
     id?: number | undefined,
     name?: string,
-    type: DocumentType,
+    documentType: DocumentType,
     employeeId?: string,
-    citoyenIds?: string[],
-    signeesIds?: string[],
+    citoyenIds?: number[],
+    signeesIds?: number[],
     status?: DocumentStatus
 }
 export enum DocumentStatus {
