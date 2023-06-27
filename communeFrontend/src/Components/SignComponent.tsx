@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import {  useState } from 'react';
 import { useParams } from 'react-router-dom';
 import documentService from '../Api/services/DocumentService';
-import { DocumentStatus, userType } from '../Types/types';
+import { DocumentStatus,Role } from '../Types/types';
 
 const SignComponent=()=> {
         const idS=useParams().id;
@@ -14,7 +14,7 @@ const SignComponent=()=> {
         const props={id:id,setIsSigned:setIsSigned,setBuffer:setBuffer};
 	const handleClickSigner =()=>{
                 if(buffer!=null) {
-                if(localStorage.getItem('role') == userType.employee){
+                if(localStorage.getItem('role') == Role.employee){
                         documentService.validateDocument(id,DocumentStatus.approved).then((res)=>{
                                 console.log(res);
                         })
@@ -41,7 +41,7 @@ const SignComponent=()=> {
         <button className='text-white cursor-pointer text-lg bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full  px-5 py-2.5 text-center mr-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 mt-5 mb-2  ' disabled={!isSigned} onClick={handleClickSigner}>
         Signer</button>
         {
-        localStorage.getItem('role') === userType.employee && (
+        localStorage.getItem('role') === Role.employee && (
         <button className='text-white cursor-pointer text-lg bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full px-5 py-2.5 text-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-5 mb-2' onClick={handleClickRejeter}>
          Rejeter</button>
 )}

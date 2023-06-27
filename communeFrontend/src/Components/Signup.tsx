@@ -1,7 +1,7 @@
 import logoWizara from '../assets/logoWizara.jpeg'
 import '../App.css'
 import { Link, useNavigate } from 'react-router-dom';
-import { Citoyen, userType } from "../Types/types";
+import { Citoyen } from "../Types/types";
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { SignupCitoyen } from '../Api/Auth/AuthService';

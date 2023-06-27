@@ -21,7 +21,7 @@ const CitoyenService = {
         const response = await api.get(`/citoyens`);
         return response.data;
     },
-    getCitoyen: async (citoyenId:Number) => {
+    getCitoyenById: async (citoyenId:Number) => {
         const response = await api.get(`/citoyens/${citoyenId}`);
         return response.data;
     },

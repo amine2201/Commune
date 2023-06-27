@@ -3,19 +3,20 @@ import { useState } from "react";
 import { Employee} from "../Types/types";
 import { Dialog , Transition } from '@headlessui/react'
 import { ChangeEvent, Fragment, useEffect} from 'react'
-import axios from "axios";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
+import EmployeeService from "../Api/services/EmployeeService";
 
 
 
 const AdminDashboardEmployees =  ( ) =>  {
     const [isOpen, setIsOpen] = useState<boolean>(true)
-    const closeModal = () => setIsOpen(false)     
+    const closeModal = () => {setIsOpen(false); setShowModal(false);}     
     const [data, setData] = useState<Employee[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false)
     const [employee,setEmployee] = useState<Employee>({
-        id: "0",
+        id: 0,
         email:'',
         password:'',
         firstName:'',
@@ -37,19 +38,20 @@ const AdminDashboardEmployees =  ( ) =>  {
                 firstName:employee.firstName,
                 lastName:employee.lastName,
             }
-            console.log(newEmployee)
-           await axios.post('http://localhost:4000/employees',newEmployee).then(res => setData(res.data)).catch(err => console.log(err))  
+           EmployeeService.createEmployee(newEmployee)
+           .then(res => setData(res)).catch(err => console.log(err))  
             window.location.reload() 
         } 
 useEffect(()=> {
-    axios.get('http://localhost:4000/employees')
-        .then(res => setData(res.data))
+        EmployeeService.getEmployees()
+        .then(res => setData(res))
         .catch(err => console.log(err))
        
 },[])
-const handleDeleteEmployee = async (id: string | undefined) => {
+const handleDeleteEmployee = async (id: number | undefined) => {
+  if(!id) return;
     try {
-      await axios.delete(`http://localhost:4000/employees/${id}`);
+      EmployeeService.deleteEmployee(id);
       const newData = data.filter((employee) => employee.id !== id);
       setData(newData);
    
@@ -58,7 +60,8 @@ const handleDeleteEmployee = async (id: string | undefined) => {
     }
   };
 const handleAdd = () => {
-    setShowModal(true)
+    setShowModal(true);
+    setIsOpen(true);
 }
     const AddButton = () => 
         <button type="submit"  className="flex items-center justify-center text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800" onClick={handleAdd}>
@@ -70,6 +73,9 @@ const handleAdd = () => {
     
    
     return (
+      <div>
+      <Navbar isAuthenticated={true}/>
+      <h2 className="pb-3 mt-4 text-[4rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 flex flex-col justify-center items-center mx-auto">Admin Dashboard</h2>
         <div>
              
             
@@ -235,6 +241,7 @@ const handleAdd = () => {
       </>
        }  
         
+        </div>
         </div>
         </div>
         </div>

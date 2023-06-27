@@ -54,10 +54,13 @@ public class CitizenController {
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
             citizen.setEmail(citizenUpdated.getEmail());
             citizen.setCin(citizenUpdated.getCin());
+            if(!citizen.getPassword().isBlank())
+                citizen.setPassword(citizenUpdated.getPassword());
         }
         else if(((User)SecurityContextHolder.getContext().getAuthentication()).getId()!=id)
             throw new CitizenNotFoundException("different Id");
-        citizen.setPassword(citizenUpdated.getPassword());
+        if(!citizen.getPassword().isBlank())
+            citizen.setPassword(citizenUpdated.getPassword());
         citizenRepo.save(citizen);
         return ResponseEntity.ok(new CitizenInfo(citizen.getId(),citizen.getEmail(),citizen.getCin()));
     }

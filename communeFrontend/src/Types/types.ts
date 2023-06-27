@@ -1,12 +1,12 @@
 
 
 export type User = {
-    id?: string,
+    id?: number,
     email: string,
     password: string
-    userType?: userType
+    role?: Role
 }
-export enum userType {
+export enum Role {
     citoyen = "CITOYEN",
     admin = "ADMIN",
     employee = "EMPLOYEE"
@@ -46,11 +46,7 @@ export type UploadData = {
     CINs : string[],
     
 } 
-export type Userdata = {
-    id?: number | undefined,
-    email: string,
-    cin?: string,
-    role?: string, }
+
 export enum NotificationType  {
     documentToSign = "DOCUMENT_TO_SIGN",
     documentApproved = "DOCUMENT_APPROVED",

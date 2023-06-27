@@ -22,7 +22,7 @@ const EmployeeService = {
         const response = await api.get(`/employees`);
         return response.data;
     },
-    getEmployee: async (employeeId:Number) => {
+    getEmployeeById: async (employeeId:Number) => {
         const response = await api.get(`/employees/${employeeId}`);
         return response.data;
     },

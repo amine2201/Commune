@@ -1,49 +1,44 @@
 /* eslint-disable prefer-const */
 import { useState } from "react";
-import { Userdata } from "../Types/types";
+import { Citoyen } from "../Types/types";
 import { Dialog , Transition } from '@headlessui/react'
 import { ChangeEvent, Fragment, useEffect} from 'react'
-import axios from "axios";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
+import CitoyenService from "../Api/services/CitoyenService";
 
 const AdminDashBoardCitizens  = () => {
     const [isOpen, setIsOpen] = useState<boolean>(true)
-    const closeModal = () => setIsOpen(false)     
-    const [data, setData] = useState<Userdata[]>([]);
+    const closeModal = () => {setIsOpen(false); setShowModal(false);}     
+    const [data, setData] = useState<Citoyen[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false)
-    const [user,setUser] = useState<Userdata>({
-        id: 0,
-        email:'',
-        cin:'',
-          
-      });
+    const [citoyen,setCitoyen] = useState<Citoyen>({
+        email : "",
+        password : "",
+        cin : ""
+    });
       const onChangeInput = (e:ChangeEvent<HTMLInputElement>)=>{
         e.preventDefault();
         const {name ,value } = e.target 
-        const newUser = {...user,[name]:value}
-        console.log("USER IS GOING TO BE ADDED",newUser)
-        setUser(newUser) }
+        const newCitoyen = {...citoyen,[name]:value}
+        console.log("USER IS GOING TO BE ADDED",newCitoyen)
+        setCitoyen(newCitoyen) }
         const onSubmitForm = async(e : React.SyntheticEvent ) => {
             e.preventDefault();
-            const newUser = {
-                id: data.length +1 ,
-                email:user.email,
-                cin:user.cin,
-            }
-            console.log(newUser)
-           await axios.post('http://localhost:4000/users',newUser).then(res => setData(res.data)).catch(err => console.log(err))  
+            console.log(citoyen)
+           CitoyenService.createCitoyen(citoyen).then(res => setData(res)).catch(err => console.log(err))  
             window.location.reload() 
         } 
 useEffect(()=> {
-    axios.get('http://localhost:4000/users')
-        .then(res => setData(res.data))
+        CitoyenService.getCitoyens()
+        .then(res => setData(res))
         .catch(err => console.log(err))
        
 },[])
-const handleDeleteUser = async (id: number | undefined) => {
+const handleDeleteUser = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:4000/users/${id}`);
+      CitoyenService.deleteCitoyen(id);
       const newData = data.filter((user) => user.id !== id);
       setData(newData);
    
@@ -52,7 +47,8 @@ const handleDeleteUser = async (id: number | undefined) => {
     }
   };
 const handleAdd = () => {
-    setShowModal(true)
+    setShowModal(true);
+    setIsOpen(true);
 }
     const AddButton = () => 
         <button type="submit"  className="flex items-center mt-[2.5cm] justify-center text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800" onClick={handleAdd}>
@@ -64,6 +60,9 @@ const handleAdd = () => {
     
    
     return (
+        <div>
+             <Navbar isAuthenticated={true}/>
+             <h2 className="pb-3 mt-4 text-[4rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 flex flex-col justify-center items-center mx-auto">Admin Dashboard</h2>
         <div>
              
              
@@ -102,8 +101,8 @@ const handleAdd = () => {
                 </thead>
                 <tbody>
                 {data.length == 0 && <Loading/>}
-                    {data.map((_user) => (
-                        <tr key={_user.id}>
+                    {data.map((_citoyen) => (
+                        <tr key={_citoyen.id}>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <div className="flex items-center">
                                     <div className="flex-shrink-0 w-10 h-10 hidden sm:block">
@@ -111,29 +110,29 @@ const handleAdd = () => {
                                     </div>
                                     <div className="ml-3">
                                         <p className="text-gray-900 whitespace-no-wrap">
-                                            {_user.id}
+                                            {_citoyen.id}
                                         </p>
                                     </div>
                                 </div>
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
-                                    {_user.email}
+                                    {_citoyen.email}
                                 </p>
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
-                                    {_user.cin}
+                                    {_citoyen.cin}
                                 </p>
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
   <div className="flex ">
-    <div className="w-6 h-8 mr-2  transform hover:text-red-500 hover:scale-110 text-red-400 cursor-pointer" onClick={() => handleDeleteUser(_user.id)}>
+    <div className="w-6 h-8 mr-2  transform hover:text-red-500 hover:scale-110 text-red-400 cursor-pointer" onClick={() => handleDeleteUser(_citoyen.id?_citoyen.id:0)}>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
       </svg>
     </div>
-    <Link  to={`/updateCitizen/${_user.id}`} className="w-6 h-8 mr-2 transform hover:text-green-500 hover:scale-110 text-green-400 cursor-pointer" >
+    <Link  to={`/updateCitizen/${_citoyen.id}`} className="w-6 h-8 mr-2 transform hover:text-green-500 hover:scale-110 text-green-400 cursor-pointer" >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
       </svg>
@@ -184,17 +183,21 @@ const handleAdd = () => {
                       as="h3"
                       className="text-xl font-bold leading-6 text-gray-900 p-2 mb-5"
                     >
-                       Ajouter un fonctionnaire
+                       Ajouter un citoyen
                     </Dialog.Title>
                     <div className="mt-2">
                     <form className="space-y-4 md:space-y-6" action="#" onSubmit={onSubmitForm} method='post'>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" value={user.email} name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "onChange={onChangeInput}  placeholder="name@company.com" required/>
+                        <input type="email" value={citoyen.email} name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "onChange={onChangeInput}  placeholder="name@company.com" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">password</label>
+                        <input type="password" value={citoyen.password} name="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "onChange={onChangeInput}  placeholder="password" required/>
                     </div>
                     <div>
                         <label htmlFor="cin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Votre CIN</label>
-                        <input type="text" value={user.cin} name="cin" id="cin" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="L2490DB1" onChange={onChangeInput} required/>
+                        <input type="text" value={citoyen.cin} name="cin" id="cin" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white " placeholder="L2490DB1" onChange={onChangeInput} required/>
                     </div>
                     <div className="flex items-center justify-between">
                        
@@ -222,9 +225,7 @@ const handleAdd = () => {
         </div>
         </div>
         </div>
-
-      
-      
+        </div>
     )
 
 }

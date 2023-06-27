@@ -9,16 +9,14 @@ import {
 import Signup from './Components/Signup';
 import Service from './Components/Service';
 import Homepage from './Components/Homepage';
-import CitizenDashboard from './Components/CitizenDashboard';
-import ErrorPage from './Components/ErrorPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import SignComponent from './Components/SignComponent';
-import UpdateUser from './Components/UpdateCitizen';
 import MycitizenDashboard from './Components/Dashboard';
 import Dashboard from './Components/Dashboard';
-import AdminDashboard from './Components/AdminDashBoard';
 import UpdateCitizen from './Components/UpdateCitizen';
 import UpdateEmployee from './Components/UpdateEmployee';
+import AdminDashBoardCitizens from './Components/AdminDashboardCitizens';
+import AdminDashboardEmployees from './Components/AdminDashboardEmployees';
 
 const queryClient = new QueryClient();
 function App() {
@@ -32,21 +30,21 @@ return (
       {
         isUserLoggedIn ?
         <>
-                <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
                 <Route path="/Service" element={<Service />} />
-                <Route path="/EmployeeDashboard" element={<Dashboard />} />
-                <Route path="*" element={<ErrorPage />} />
-                <Route path="/" element={<Homepage />} />
+                <Route path="/dashboardEmploye" element={<Dashboard />} />
                 <Route path="/signer/:id" element={<SignComponent />} />
-                <Route path="/Admin" element={<AdminDashboard />} />
-                <Route path="/update/:id" element={<UpdateUser />} />
-                <Route path="/CitizenDashboard" element={<Dashboard />} />
-                <Route path="/citizen" element={<MycitizenDashboard />} />
+                <Route path="/citoyens" element={<AdminDashBoardCitizens />} />
+                <Route path="/employees" element={<AdminDashboardEmployees/>} />
+                <Route path="/updateCitoyen/:id" element={<UpdateCitizen />} />
+                <Route path="/updateEmployee/:id" element={<UpdateEmployee />} />
+                <Route path="/dashboardCitoyen" element={<Dashboard />} />
+                <Route path="/" element={<Homepage />} />
+                <Route path="*" element={<Homepage />} />
 
                 
        </>
        :
-        <>        <Route path="/Admin" element={<AdminDashboard />} />
+        <>        
                   <Route path="/updateCitizen/:id" element={<UpdateCitizen />} />
                   <Route path="/updateEmployee/:id" element={<UpdateEmployee />} />
                   <Route path="/signer/:id" element={<SignComponent />} />
