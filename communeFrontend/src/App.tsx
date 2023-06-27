@@ -9,7 +9,6 @@ import {
 import Signup from './Components/Signup';
 import Service from './Components/Service';
 import Homepage from './Components/Homepage';
-import EmployeeDashboard from './Components/EmployeeDashboard';
 import CitizenDashboard from './Components/CitizenDashboard';
 import ErrorPage from './Components/ErrorPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -17,7 +16,8 @@ import {  AuthContextProvider } from './Api/Auth/AuthContext';
 import SignComponent from './Components/SignComponent';
 import AdminDashboard from './Components/AdminDashboard';
 import UpdateUser from './Components/UpdateUser';
-import MycitizenDashboard from './Components/MyCitizenDashboard';
+import MycitizenDashboard from './Components/Dashboard';
+import Dashboard from './Components/Dashboard';
 
 const queryClient = new QueryClient();
 function App() {
@@ -34,13 +34,13 @@ return (
         <>
                 <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
                 <Route path="/Service" element={<Service />} />
-                <Route path="/EmployeeDashboard" element={<EmployeeDashboard />} />
+                <Route path="/EmployeeDashboard" element={<Dashboard />} />
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/signer/:id" element={<SignComponent />} />
                 <Route path="/Admin" element={<AdminDashboard />} />
                 <Route path="/update/:id" element={<UpdateUser />} />
-                <Route path="/CitizenDashboard" element={<CitizenDashboard />} />
+                <Route path="/CitizenDashboard" element={<Dashboard />} />
                 <Route path="/citizen" element={<MycitizenDashboard />} />
 
                 

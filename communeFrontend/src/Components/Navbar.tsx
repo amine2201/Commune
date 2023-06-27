@@ -21,13 +21,13 @@ const NavbarTrue = () => {
     <>
       <ul className="font-medium flex flex-col p-6 mt-4  px-10 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-16 mr-10 py-4 pl-5 md:mt-0 md:border-0 md:bg-white">
           <li>
-            <Link className="rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" to="/CitizenDashboard">Status</Link>
+            <Link className=" flex items-center rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" to="/CitizenDashboard">Status</Link>
           </li>
           <li>
-            <Link className="rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" to="/Service">Services</Link>
+            <Link className="flex items-center rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" to="/Service">Services</Link>
           </li>
           <li className="flex items-center ">
-           <img src={profile} className='h-8 w-8' alt="Profile" />
+           <img src={profile} className=' flex items-center h-8 w-8' alt="Profile" />
             <span className=' block ml-2 text-black font-medium uppercase leading-normal text-primary mb-1'>
               {
               username  ? username : ''
@@ -37,7 +37,7 @@ const NavbarTrue = () => {
             </li>
   </li>
             <li>
-            <Link className="rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" onClick={handleLogout} to="/">Logout</Link>
+            <Link className="flex items-center rounded px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-250 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700" onClick={handleLogout} to="/">Logout</Link>
               </li>
         </ul>
     </>

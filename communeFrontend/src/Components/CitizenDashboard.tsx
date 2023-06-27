@@ -121,7 +121,15 @@ const CitizenDashboard = ()=>{
         nav(`/signer/${row.original.id}`);
     }}>
         {row.cells.map((cell) => {
-
+			switch(cell.value){
+				case "accepté": return (<span {...cell.getCellProps()}
+				className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block mt-5 " > {cell.render('Cell')}</span>)
+				case "refusé": return (<span {...cell.getCellProps()}
+				className="bg-red-500 text-white-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5  " > {cell.render('Cell')}</span>)
+				case "en cours": return (<span {...cell.getCellProps()}
+				className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase  ml-1 block mt-5" > {cell.render('Cell')}</span>)
+				
+			}
 			
           return (
             <td {...cell.getCellProps()} className="  px-5 py-5  border-b border-gray-200 bg-white text-sm font-semibold">

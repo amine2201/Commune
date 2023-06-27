@@ -1,23 +1,62 @@
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
-import { document  } from "../Types/types";
+import { Link, useLocation } from "react-router-dom";
+import {  document  } from "../Types/types";
 import documentService from "../Api/services/DocumentService";
 
 
-const MycitizenDashboard = () => {
+const Dashboard = () => {
+    const path = useLocation().pathname;
+    const title=path==='EmployeeDashboard'?'Dashboard d\'employe':'Dashboard du citoyen';
     const [documents, setDocuments] = useState<document[]>([]);
+    const statusMapping: Record<string, string> = {
+        "APPROVED": "apprové",
+        "REJECTED": "rejeté",
+        "PENDING": "en attente",
+    };
+    const getStatusDisplay = (status: string) => {
+    switch(status) {
+        case "apprové": 
+            return (
+                <div className="flex items-center justify-center">
+                    <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block mt-5">
+                        {status}
+                    </span>
+                </div>
+            );
+        case "rejeté": 
+            return (
+                <div className="flex items-center justify-center">
+                    <span className="bg-red-500 text-white py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5">
+                        {status}
+                    </span>
+                </div>
+            );
+        case "en attente": 
+            return (
+                <div className="flex items-center justify-center">
+                    <span className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5">
+                        {status}
+                    </span>
+                </div>
+            );
+        default: 
+            return 'Status not available';
+    }
+}
+
+    
     useEffect(()=> {
             documentService.getDocuments()
-            .then(res => {setDocuments(res); res.map((doc:any) => console.log(doc.signeesId));})
+            .then(res => setDocuments(res))
             .catch(err => console.log(err))
            
     },[])
     return (
         <div>
              <Navbar isAuthenticated={true}/>
-             <h2 className="pb-3 mt-4 text-[2rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 ">Dashboard du citoyen</h2>
+             <h2 className="pb-3 mt-4 text-[2rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 ">{title}</h2>
              <div>
                 <div className="flex items-center justify-center">
                 <div>
@@ -83,7 +122,7 @@ const MycitizenDashboard = () => {
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
-                                { doc.status }
+                                {doc.status ? getStatusDisplay(statusMapping[doc.status]) : 'Status not available'}
                                 </p>
                             </td>
 
@@ -116,4 +155,4 @@ const MycitizenDashboard = () => {
     )
     
 }
-export default MycitizenDashboard;
+export default Dashboard;

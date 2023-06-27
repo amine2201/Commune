@@ -19,8 +19,31 @@
       "status": "APPROVED"
     }
   ]
+  ,
+  "users":[
+    {
+        "id": "1",
+        "email": "email@g.c",
+        "password": "password",
+        "userType": "EMPLOYEE"
+    },
+    {
+        "id": "2",
+        "email": "email@g.c",
+        "password": "password",
+        "userType": "CITOYEN"
+    },
+    {
+        "id": "3",
+        "email": "email@g.c",
+        "password": "password",
+        "userType": "SIGNER"
+    }
+  ]
+
 
 }
+
 
 
 
