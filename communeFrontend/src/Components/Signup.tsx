@@ -5,11 +5,20 @@ import { Citoyen } from "../Types/types";
 import { useMutation } from '@tanstack/react-query';
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { SignupCitoyen } from '../Api/Auth/AuthService';
+import Modal from 'react-modal';
+import PhotoCaptureModal from './PhotoCaptureModal';
+
+
+
+
 
 
 export default function Signup(){
+    Modal.setAppElement('#root');
+    const [isModalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate()
-    const { mutateAsync , data } = useMutation(SignupCitoyen)
+    const { mutateAsync } = useMutation(SignupCitoyen)
+    const [CIN, setCIN] = useState<string>('');
     const [user,setUser] = useState<Citoyen>({
         email:'',
         password:'',
@@ -19,6 +28,10 @@ export default function Signup(){
     const {name ,value } = e.target 
     setUser({...user,[name]:value}) }  
 
+    useEffect(() => {
+        if(CIN===user.cin){
+            handleModalClose();}
+        }, [CIN]);
     const onSubmitForm = async (e : SyntheticEvent) => {
     e.preventDefault()
     try {
@@ -28,7 +41,14 @@ export default function Signup(){
         console.log(error);
       }
     }
-  useEffect(() =>console.log("MY DATA : ",data), [data])
+    function handleModalOpen(): void {
+        setModalOpen(true);
+    }
+    function handleModalClose(): void {
+        setModalOpen(false);
+    }
+
+
 return (
         <>
      <section >
@@ -56,7 +76,8 @@ return (
                       <div className="flex items-center justify-between">
                          
                       </div>
-                      <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  onClick={()=>console.log("WHEN CLICKED ON SIGNUP : ",user)}>S'Inscrire</button>
+                      <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  onClick={()=>console.log("WHEN CLICKED ON SIGNUP : ",user)} disabled={!(user.cin===CIN)}>S'Inscrire</button>
+                      <button type="button" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"  onClick={()=>{handleModalOpen()}} disabled={user.cin.length==0}>Verifier identite</button>
                       <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
                           Vous avez dèja un compte ? <Link to="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Se connecter</Link>
                       </p>
@@ -67,6 +88,11 @@ return (
           </div>
       </div>
     </section>
+    <PhotoCaptureModal 
+        isOpen={isModalOpen}
+        onRequestClose={handleModalClose}
+        setCIN={setCIN}
+      />
         </>
       )
     }

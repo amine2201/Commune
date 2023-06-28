@@ -33,6 +33,12 @@ services:
       - db
     networks:
       - CommuneNet
+  face_api:
+    build: ./face-api
+    ports:
+      - "3000:3000"
+    networks:
+      - CommuneNet
 volumes:
   CommuneDB:
 networks:
