@@ -4,6 +4,8 @@ const fs = require('fs');
 const canvas = require('canvas');
 const cors = require('cors');
 const { recognizeFaces, run,labelsSaved } = require('./tiny_face');
+const jsonData = fs.readFileSync('citoyens.json', 'utf8');
+const data = JSON.parse(jsonData);
 const app = express();
 app.use(
   cors({
@@ -57,18 +59,25 @@ app.post('/check', async (req, res) => {
     }
   });
   const uniqueLabels = [...new Set(labelsWithoutScores)];
-  console.log('Labels found:', uniqueLabels);
   const finalLabels = uniqueLabels.filter(label => labelsSaved.includes(label));
   console.log('final Labels found:', finalLabels);
   if (finalLabels.length > 0) {
+      const user = data.find(obj => obj.cin === finalLabels[0]);
       console.log('User found:', finalLabels[0]);
-      res.json({ message: "User found", label: finalLabels[0] });
+      res.json(user );
   } else {
-    console.log('User not found');
-      res.status(404).json({ message: "User not found" });
+      console.log('User not found');
+      res.status(404).json({ error: "User not found" });
   }
 });
-
+//get citoyen by id
+app.get('/citoyen/:id', (req, res) => {
+  const user = data.find(obj => obj.cin === req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ error: "User not found" });
+  }});
 app.listen(3000, () => {
    onAppStart();
 });

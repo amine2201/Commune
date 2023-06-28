@@ -36,8 +36,8 @@ const PhotoCaptureModal: React.FC<PhotoCaptureModalProps> = ({ isOpen, onRequest
           }
         });
         // handle response here
-        setCIN(response.data.label);
-        console.log(response.data.label);
+        setCIN(response.data.cin);
+        console.log(response.data.cin);
       } catch (error) {
         // handle error here
         console.error(error);
