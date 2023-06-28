@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import React, { useEffect, useRef } from 'react';
 import Webcam from "react-webcam";
 import Modal from 'react-modal';
@@ -65,12 +66,15 @@ const PhotoCaptureModal: React.FC<PhotoCaptureModalProps> = ({ isOpen, onRequest
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Photo Capture Modal"
-      className="flex items-center justify-center outline-none"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+      className="flex items-center justify-center outline-none flex-col "
+      overlayClassName="fixed inset-0 bg-black bg-opacity-80 "
     >
-      <div className="bg-white p-6 rounded shadow-md">
-      <h3 className="mb-4 text-black text-lg font-bold text-center">verification Status</h3>
-        <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" className="mb-4"/>
+      <div className="bg-white  rounded-lg shadow-md px-10 py-12 w-[14cm] mt-[5cm] ">
+      <h3 className="mb-4 text-black text-2xl font-bold text-center p-5 ">Vérification Status</h3>
+      <div className="flex items-center justify-center">
+      <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" className="mb-4 rounded-lg border-solid border-2 border-green-600 p-5" />
+      </div>
+
       </div>
     </Modal>
   );
