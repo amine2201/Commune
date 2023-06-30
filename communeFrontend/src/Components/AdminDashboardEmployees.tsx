@@ -64,7 +64,7 @@ const handleAdd = () => {
     setIsOpen(true);
 }
     const AddButton = () => 
-        <button type="submit"  className="flex items-center justify-center text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800" onClick={handleAdd}>
+        <button type="submit"  className="flex items-center justify-center text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 mt-[2.5cm] my-[-2cm]" onClick={handleAdd}>
                                 <svg className="h-3.5 w-3.5 mr-1.5 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                                 </svg>
@@ -73,9 +73,8 @@ const handleAdd = () => {
     
    
     return (
-      <div>
-      <Navbar isAuthenticated={true}/>
-      <h2 className="pb-3 mt-4 text-[4rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 flex flex-col justify-center items-center mx-auto">Admin Dashboard</h2>
+      
+   
         <div>
              
             
@@ -88,7 +87,7 @@ const handleAdd = () => {
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
 				<div className="inline-block min-w-full ">
         <h2 className=" text-[1.5rem] font-bold leading-none tracking-tight text-gray-700  dark:text-white p-6 ">Pour les fonctionnaires</h2>
-					<table className=" ml-5 min-w-[97vw] leading-normal ">
+					<table className=" ml-5 min-w-[97vw] leading-normal mb-[3cm]">
             <thead>
                 <tr >
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
@@ -245,7 +244,7 @@ const handleAdd = () => {
         </div>
         </div>
         </div>
-        </div>
+       
       
     )
       

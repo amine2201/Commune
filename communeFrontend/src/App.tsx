@@ -17,6 +17,7 @@ import UpdateCitizen from './Components/UpdateCitizen';
 import UpdateEmployee from './Components/UpdateEmployee';
 import AdminDashBoardCitizens from './Components/AdminDashboardCitizens';
 import AdminDashboardEmployees from './Components/AdminDashboardEmployees';
+import AdminDashboard from './Components/AdminDashboard';
 
 const queryClient = new QueryClient();
 function App() {
@@ -33,14 +34,12 @@ return (
                 <Route path="/Service" element={<Service />} />
                 <Route path="/dashboardEmploye" element={<Dashboard />} />
                 <Route path="/signer/:id" element={<SignComponent />} />
-                <Route path="/citoyens" element={<AdminDashBoardCitizens />} />
-                <Route path="/employees" element={<AdminDashboardEmployees/>} />
                 <Route path="/updateCitoyen/:id" element={<UpdateCitizen />} />
                 <Route path="/updateEmployee/:id" element={<UpdateEmployee />} />
                 <Route path="/dashboardCitoyen" element={<Dashboard />} />
+                <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="*" element={<Homepage />} />
-
                 
        </>
        :
@@ -49,6 +48,7 @@ return (
                   <Route path="/updateEmployee/:id" element={<UpdateEmployee />} />
                   <Route path="/signer/:id" element={<SignComponent />} />
                  <Route path="/citizen" element={<MycitizenDashboard />} />
+                
                 <Route path="/" element={<Homepage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Signup" element={<Signup />} />
