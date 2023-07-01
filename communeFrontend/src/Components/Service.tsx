@@ -88,7 +88,7 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4  pb-[1cm] bg-opacity-80  drop  shadow-xl ">
+        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4  pb-[1cm] bg-opacity-70  drop  shadow-xl ">
             <img className="w-45 h-50  mb-[1.5rem]  mt-12  overflow-hidden mix-blend-multiply" src={contract} alt="preview"  />
             <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Choisissez votre type de service</h2>
             <div>
