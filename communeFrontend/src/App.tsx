@@ -39,7 +39,7 @@ return (
                 <Route path="/citoyen" element={<AdminDashBoardCitizens />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="*" element={<Homepage />} />
-                <Route path="/citizen" element={<MycitizenDashboard />} />
+              
                 
        </>
        :

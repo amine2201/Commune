@@ -88,17 +88,17 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${80+buttonClicked*6}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4 ">
-            <img className="h-55 w-40 mb-[1.5rem]  mt-12 " src={contract} alt="preview"  />
-            <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez votre type de service</h2>
+        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4  pb-[1cm] bg-opacity-80  drop  shadow-xl ">
+            <img className="w-45 h-50  mb-[1.5rem]  mt-12  overflow-hidden mix-blend-multiply" src={contract} alt="preview"  />
+            <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Choisissez votre type de service</h2>
             <div>
-            <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className=" text-sm font-bold  text-gray-900 pr-5 pl-2">Legalizaition</label>
+            <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
+            <label htmlFor="default-radio-1" className=" text-md font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALIZATION</label>
             <input id="default-radio-1" type="radio" value="Certification" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className="ml-2 text-sm font-bold  text-gray-900 dark:text-gray-300">Certification</label>
+            <label htmlFor="default-radio-1" className="ml-2  text-md font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
 
             </div>
-            <h2 className="font-bold py-5 text-center text-black text-xl">Ajouter les signataires de document</h2>
+            <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Ajouter les signataires de document</h2>
             <img onClick={handleAdd} src={add} className="cursor-pointer h-7 w-7 opacity-70 hover:opacity-50 relative block mb-2" />
            
           {val.map((myCINS, i) => (
@@ -112,19 +112,19 @@ const Service =  () => {
                 className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200 text-black font-semibold"
               />
               
-              <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5"/>
+              <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5 mix-blend-multiply"/>
             
             </div>
           ))}
 
             {file ?
              <>
-              <h2 className="font-bold py-6 text-center text-black text-xl">Fichier selectionné :
-             <div className="p-5 py-3  bg-gray-200 rounded-full shadow-sm  cursor-pointer mt-5"> <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
-              <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  "/>
+              <h2 className="font-extrabold py-2 text-center text-gray-600 text-lg uppercase tracking-wider">Fichier selectionné 
+             <div className="p-5 py-2  bg-gray-300 rounded-full shadow-sm  cursor-pointer mt-5 border-gray-500/25 border-2 hover:bg-gray-300"> <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
+              <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  mix-blend-multiply"/>
              <div className=" border-solid border-green-800 rounded-sm">
              
-             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded " type="submit"  onClick={handleSubmission}>Upload</button>
+             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded " type="submit"  onClick={handleSubmission}>Charger votre fichier</button>
              {clicked &&
                <Modal/> }
              </div>
@@ -132,8 +132,8 @@ const Service =  () => {
              :
              <>
 
-             <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez votre fichier</h2>
-             <label  htmlFor="file" className=" cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded"  >Select Document
+             <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Choisissez votre fichier</h2>
+             <label  htmlFor="file" className=" cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded"  >Sélectionner un fichier
              <input type="file" id="file" name="file" disabled={!(checked)}  onChange={handleChange} className=" hidden"  accept=".pdf" />
              </label> 
               </>}
