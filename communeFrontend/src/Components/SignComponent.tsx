@@ -39,8 +39,8 @@ const SignComponent=()=> {
         <br/>
         
         <div className='h-[110vh] w-[75vw] flex flex-col items-center justify-center mx-auto  '>
-        <div className='flex flex-row justify-center items-center bg-white/70 rounded-t-xl p-3 '>
-        <h1 className='text-2xl font-bold text-black/60 uppercase tracking-wide mr-4 ml-2 shadow-sm'>Signature digitale</h1>
+        <div className='flex flex-row justify-center items-center bg-white/60 rounded-t-xl p-1 px-3 shadow-lg'>
+        <h1 className='text-2xl font-bold text-black/60 uppercase tracking-wide mr-4 ml-2 '>Signature digitale</h1>
         <img className="mix-blend-multiply h-[5rem] w-[5rem] " src={DigitalSignature}/></div>
 	<PdfViewerComponent {...props} />
         <div style={{ display: 'flex' }}>
@@ -69,7 +69,7 @@ const SignComponent=()=> {
                 </div>
   ):
   (
-        <div className="flex flex-row  items-center justify-center">
+        <div className="flex flex-row items-center justify-center">
          <button
            disabled={!isSigned}
            onClick={handleClickSigner}
