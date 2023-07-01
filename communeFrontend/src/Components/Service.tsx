@@ -88,9 +88,12 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4  pb-[1cm] bg-opacity-70  drop  shadow-xl ">
-            <img className="w-45 h-50  mb-[1.5rem]  mt-12  overflow-hidden mix-blend-multiply" src={contract} alt="preview"  />
-            <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Choisissez votre type de service</h2>
+        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
+         
+        <div className="w-[10rem] h-[10.2rem] mb-[1rem] mt-6 mix-blend-multiply overflow-hidden">
+        <img className="w-full h-full" src={contract} alt="preview" />
+        </div>
+            <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Choisissez votre type de service</h2>
             <div>
             <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
             <label htmlFor="default-radio-1" className=" text-md font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALIZATION</label>
@@ -98,7 +101,7 @@ const Service =  () => {
             <label htmlFor="default-radio-1" className="ml-2  text-md font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
 
             </div>
-            <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Ajouter les signataires de document</h2>
+            <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Ajouter les signataires de document</h2>
             <img onClick={handleAdd} src={add} className="cursor-pointer h-7 w-7 opacity-70 hover:opacity-50 relative block mb-2" />
            
           {val.map((myCINS, i) => (
@@ -119,7 +122,7 @@ const Service =  () => {
 
             {file ?
              <>
-              <h2 className="font-extrabold py-2 text-center text-gray-600 text-lg uppercase tracking-wider">Fichier selectionné 
+              <h2 className="font-extrabold py-2 text-center text-gray-600 text-md uppercase tracking-wider">Fichier selectionné 
              <div className="p-5 py-2  bg-gray-300 rounded-full shadow-sm  cursor-pointer mt-5 border-gray-500/25 border-2 hover:bg-gray-300"> <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
               <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  mix-blend-multiply"/>
              <div className=" border-solid border-green-800 rounded-sm">
@@ -132,7 +135,7 @@ const Service =  () => {
              :
              <>
 
-             <h2 className="font-extrabold py-5 text-center text-gray-600 text-lg uppercase tracking-wider">Choisissez votre fichier</h2>
+             <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Choisissez votre fichier</h2>
              <label  htmlFor="file" className=" cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded"  >Sélectionner un fichier
              <input type="file" id="file" name="file" disabled={!(checked)}  onChange={handleChange} className=" hidden"  accept=".pdf" />
              </label> 
