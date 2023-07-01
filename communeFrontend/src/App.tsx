@@ -40,6 +40,7 @@ return (
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="*" element={<Homepage />} />
+                <Route path="/citizen" element={<MycitizenDashboard />} />
                 
        </>
        :

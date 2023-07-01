@@ -7,6 +7,8 @@ import { ChangeEvent, useEffect, useState  } from "react"
 import cancel2 from '../assets/cancel2.jpg'
 import { DocumentType, UploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faFile} from "@fortawesome/free-solid-svg-icons"
 
 
 const Service =  () => {
@@ -86,8 +88,8 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${80+buttonClicked*6}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-3">
-            <img className="h-55 w-40 mb-[1.5rem] overflow-hidden " src={contract} alt="preview"  />
+        <section style={{ height: `${80+buttonClicked*6}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[75vh]  bg-white rounded-md mt-4 ">
+            <img className="h-55 w-40 mb-[1.5rem]  mt-12 " src={contract} alt="preview"  />
             <h2 className="font-bold py-5 text-center text-black text-xl">Choisissez votre type de service</h2>
             <div>
             <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer"/>
@@ -117,7 +119,8 @@ const Service =  () => {
 
             {file ?
              <>
-              <h2 className="font-bold py-5 text-center text-black text-xl">Fichier selectionné : {file.name}</h2>
+              <h2 className="font-bold py-6 text-center text-black text-xl">Fichier selectionné :
+             <div className="p-5 py-3  bg-gray-200 rounded-full shadow-sm  cursor-pointer mt-5"> <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
               <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  "/>
              <div className=" border-solid border-green-800 rounded-sm">
              
