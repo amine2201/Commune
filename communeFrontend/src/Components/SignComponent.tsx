@@ -5,6 +5,9 @@ import {  useState } from 'react';
 import { useParams } from 'react-router-dom';
 import documentService from '../Api/services/DocumentService';
 import { DocumentStatus,Role } from '../Types/types';
+import accept  from '../assets/accept.png';
+import cancel  from '../assets/cancel.png';
+import DigitalSignature from '../assets/DigitalSignature.jpeg';
 
 const SignComponent=()=> {
         const idS=useParams().id;
@@ -36,16 +39,37 @@ const SignComponent=()=> {
         <br/>
         
         <div className='h-[95vh] w-[75vw] flex flex-col items-center justify-center mx-auto  '>
+        <div className='flex flex-row justify-center items-center bg-white/70 rounded-t-xl p-3 '>
+        <h1 className='text-2xl font-bold text-black/60 uppercase tracking-wide mr-4 ml-2'>Signature digitale</h1>
+        <img className="mix-blend-multiply h-[5rem] w-[5rem] " src={DigitalSignature}/></div>
 	<PdfViewerComponent {...props} />
         <div style={{ display: 'flex' }}>
-        <button className='text-white cursor-pointer text-lg bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full  px-5 py-2.5 text-center mr-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 mt-5 mb-2  ' disabled={!isSigned} onClick={handleClickSigner}>
-        Signer</button>
-        {
+     
+        <div className="flex flex-col items-center justify-center">
+         <button
+           disabled={!isSigned}
+           onClick={handleClickSigner}
+           className="p-2 flex flex-row items-center justify-center rounded-lg bg-neutral-100 shadow-lg cursor-pointer hover:bg-green-200 mt-5 transition-transform duration-250 ease-out transform hover:scale-105 mb-3 border-gray-600/30 border-[1px]"
+         >
+           <h1 className="font-bold text-black/60 uppercase tracking-wider text-lg px-4">
+             Confirmer la signature
+           </h1>
+           <img src={accept} className="h-9 w-9 mix-blend-multiply" />
+         </button>
+         {
         localStorage.getItem('role') === Role.employee && (
-        <button className='text-white cursor-pointer text-lg bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full px-5 py-2.5 text-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-5 mb-2' onClick={handleClickRejeter}>
-         Rejeter</button>
-)}
-
+         <button
+          onClick={handleClickRejeter}
+          className="p-1 py-[0.3rem] px-5 flex flex-row items-center justify-center rounded-lg bg-neutral-100 shadow-lg cursor-pointer hover:bg-red-300 mt-5 transition-transform duration-250 ease-out transform hover:scale-105 mb-3 border-gray-600/30 border-[1px]">
+        <h1 className="font-bold text-black/60 uppercase tracking-wider text-lg px-4 py-2">
+                Rejeter la signature
+        </h1>
+        <img  src={cancel} className="  h-10 w-10 mix-blend-multiply ml-5 mr-[-0.4cm]" />
+  </button>
+  )}
+</div>
+       
+   
         </div>
 	</div>
         
