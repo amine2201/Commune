@@ -6,7 +6,12 @@ export const api = axios.create({baseURL: 'http://localhost:8080/api/v1'},);
 api.defaults.headers.common["Content-Type"] = "application/json";
 export const SignupCitoyen = async (citoyen : Citoyen) => {
     try {
-        const {data} = await api.post('/register', citoyen);
+        const data = await api.post('/register', citoyen);
+        const {role,token} = data.data;
+        localStorage.setItem('jwtToken', token);
+        localStorage.setItem('user', citoyen.email);
+        localStorage.setItem('role', role);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         return data;
     }   catch (error) { console.dir("SIGN UP ERROR : ",error); }
 }

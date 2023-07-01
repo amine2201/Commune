@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
-import { Link, useLocation } from "react-router-dom";
-import {  document  } from "../Types/types";
+import { Link } from "react-router-dom";
+import {  Role, document  } from "../Types/types";
 import documentService from "../Api/services/DocumentService";
 
 
 const Dashboard = () => {
-    const path = useLocation().pathname;
-    const title=path==='EmployeeDashboard'?'Dashboard d\'employe':'Dashboard du citoyen';
+    const title=localStorage.getItem('role')===Role.citoyen?'Dashboard Citoyen':'Dashboard Employé';
     const [documents, setDocuments] = useState<document[]>([]);
     const statusMapping: Record<string, string> = {
-        "APPROVED": "apprové",
+        "APPROVED": "approUvé",
         "REJECTED": "rejeté",
-        "PENDING": "en attente",
+        "PENDING": "en COURS",
     };
     const getStatusDisplay = (status: string) => {
     switch(status) {

@@ -38,6 +38,7 @@ const PhotoCaptureModal: React.FC<PhotoCaptureModalProps> = ({ isOpen, onRequest
         });
         // handle response here
         setCIN(response.data.cin);
+        console.log(response.data);
         console.log(response.data.cin);
       } catch (error) {
         // handle error here
@@ -69,8 +70,8 @@ const PhotoCaptureModal: React.FC<PhotoCaptureModalProps> = ({ isOpen, onRequest
       className="flex items-center justify-center outline-none flex-col "
       overlayClassName="fixed inset-0 bg-black bg-opacity-80 "
     >
-      <div className="bg-white  rounded-lg shadow-md px-10 py-12 w-[14cm] mt-[5cm] ">
-      <h3 className="mb-4 text-black text-2xl font-bold text-center p-5 ">Vérification Status</h3>
+      <div className="bg-white  rounded-lg shadow-md">
+      <h3 className="mb-4 text-black text-2xl font-bold text-center p-5 ">Vérification d'identité</h3>
       <div className="flex items-center justify-center">
       <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" className="mb-4 rounded-lg border-solid border-2 border-green-600 p-5" />
       </div>

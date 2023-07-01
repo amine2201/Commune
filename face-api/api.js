@@ -24,6 +24,7 @@ app.use(fileUpload({
 app.post('/check', async (req, res) => {
   console.log('Checking user...');
   if (!req.files || Object.keys(req.files).length !== 3) {
+      console.log('We need exactly 3 images.');
       return res.status(400).send('We need exactly 3 images.');
   }
 
@@ -34,6 +35,7 @@ app.post('/check', async (req, res) => {
   ];
   for (let i = 0; i < images.length; i++) {
     if (!images[i]) {
+      console.log('Image ' + (i + 1) + ' is not valid.');
       return res.status(400).send('Image ' + (i + 1) + ' is not valid.');
     }
     console.log('Image ' + (i + 1) + ' is valid.');
