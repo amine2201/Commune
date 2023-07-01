@@ -44,22 +44,9 @@ const SignComponent=()=> {
         <img className="mix-blend-multiply h-[5rem] w-[5rem] " src={DigitalSignature}/></div>
 	<PdfViewerComponent {...props} />
         <div style={{ display: 'flex' }}>
-     
-        <div className="flex flex-col items-center justify-center">
-         <button
-           disabled={!isSigned}
-           onClick={handleClickSigner}
-           className="p-2 flex flex-row items-center justify-center rounded-lg bg-neutral-100 shadow-lg cursor-pointer hover:bg-green-200 mt-5 transition-transform duration-250 ease-out transform hover:scale-105 mb-3 border-gray-600/30 border-[1px] mr-5"
-         >
-           <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3">
-             Confirmer la signature
-           </h1>
-           <img src={accept} className="h-8 w-8 mix-blend-multiply" />
-         </button>
-         
          
          {
-        localStorage.getItem('role') === Role.employee && (
+        localStorage.getItem('role') === Role.employee ? (
                 <div className="flex flex-row  items-center justify-center">
                 <button
                   disabled={!isSigned}
@@ -80,8 +67,23 @@ const SignComponent=()=> {
                <img  src={cancel} className="  h-9 w-9 mix-blend-multiply ml-5 mr-[-0.4cm]" />
          </button>
                 </div>
+  ):
+  (
+        <div className="flex flex-row  items-center justify-center">
+         <button
+           disabled={!isSigned}
+           onClick={handleClickSigner}
+           className="p-2 flex flex-row items-center justify-center rounded-lg bg-neutral-100 shadow-lg cursor-pointer hover:bg-green-200 mt-5 transition-transform duration-250 ease-out transform hover:scale-105 mb-3 border-gray-600/30 border-[1px] mr-5"
+         >
+           <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3">
+             Confirmer la signature
+           </h1>
+           <img src={accept} className="h-8 w-8 mix-blend-multiply" />
+         </button>
+
+                </div>
   )}
-</div>
+
        
    
         </div>
