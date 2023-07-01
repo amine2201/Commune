@@ -54,7 +54,7 @@ const SignComponent=()=> {
            <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3">
              Confirmer la signature
            </h1>
-           <img src={accept} className="h-9 w-9 mix-blend-multiply" />
+           <img src={accept} className="h-8 w-8 mix-blend-multiply" />
          </button>
          
          
@@ -69,7 +69,7 @@ const SignComponent=()=> {
                   <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3">
                     Confirmer la signature
                   </h1>
-                  <img src={accept} className="h-9 w-9 mix-blend-multiply" />
+                  <img src={accept} className="h-8 w-8 mix-blend-multiply" />
                 </button>
                 <button
                  onClick={handleClickRejeter}
@@ -77,7 +77,7 @@ const SignComponent=()=> {
                <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3 py-2">
                        Rejeter la signature
                </h1>
-               <img  src={cancel} className="  h-10 w-10 mix-blend-multiply ml-5 mr-[-0.4cm]" />
+               <img  src={cancel} className="  h-9 w-9 mix-blend-multiply ml-5 mr-[-0.4cm]" />
          </button>
                 </div>
   )}
