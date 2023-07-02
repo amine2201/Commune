@@ -88,17 +88,17 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${78+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
+        <section style={{ height: `${80+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
          
         <div className="w-[10rem] h-[10.2rem] mb-[1rem] mt-6 mix-blend-multiply overflow-hidden">
         <img className="w-full h-full" src={contract} alt="preview" />
         </div>
             <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Choisissez votre type de service</h2>
             <div>
-            <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className=" text-md font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALIZATION</label>
-            <input id="default-radio-1" type="radio" value="Certification" name="default-radio" onChange={handleRadioButtonChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className="ml-2  text-md font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
+            <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
+            <label htmlFor="default-radio-1" className=" text-sm font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALIZATION</label>
+            <input id="default-radio-1" type="radio" value="Certification" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600  focus:ring-2 cursor-pointer"/>
+            <label htmlFor="default-radio-1" className="ml-2  text-sm font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
 
             </div>
             <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Ajouter les signataires de document</h2>
