@@ -88,7 +88,7 @@ const Service =  () => {
         <>
         <Navbar isAuthenticated={true}/>
        
-        <section style={{ height: `${80+buttonClicked*8.5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
+        <section style={{ height: `${80+buttonClicked*5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
          
         <div className="w-[10rem] h-[10.2rem] mb-[1rem] mt-6 mix-blend-multiply overflow-hidden">
         <img className="w-full h-full" src={contract} alt="preview" />
@@ -123,9 +123,11 @@ const Service =  () => {
             {file ?
              <>
               <h2 className="font-extrabold py-2 text-center text-gray-600 text-md uppercase tracking-wider">Fichier selectionné 
-             <div className="p-5 py-2  bg-gray-300 rounded-full shadow-sm  cursor-pointer mt-5 border-gray-500/25 border-2 hover:bg-gray-300"> <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
-              <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block mb-3  mix-blend-multiply"/>
-             <div className=" border-solid border-green-800 rounded-sm">
+             <div className="p-2 py-2  bg-gray-300 rounded-full shadow-sm  cursor-pointer mt-5 border-gray-500/25 border-2 hover:bg-gray-300 "> 
+             <FontAwesomeIcon className=" px-2" icon={faFile}></FontAwesomeIcon><span> {file.name}</span></div></h2>
+              <img onClick={handleDeleteFile} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative left-[9.5rem] bottom-[3rem] mix-blend-multiply"/>
+              
+             <div className=" border-solid border-green-800 rounded-sm ">
              
              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded " type="submit"  onClick={handleSubmission}>Charger votre fichier</button>
              {clicked &&

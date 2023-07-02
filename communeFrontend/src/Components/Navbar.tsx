@@ -89,7 +89,7 @@ const Navbar : React.FC<HeaderProps> =  ({isAuthenticated}) => {
       <div className="max-w-screen-xl flex flex-col items-center justify-center mx-auto p-4 ml-5">
         <div className="flex items-center justify-between w-full ">
        
-          <Link to="/" className="h-10 w-10  mix-blend-multiply">
+          <Link to="/" className="h-12 w-12  mix-blend-multiply">
           <img src={logoWizara} alt="Logo" />
         </Link>
         <div className="hidden w-full md:block md:w-auto ">
