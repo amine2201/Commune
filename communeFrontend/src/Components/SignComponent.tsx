@@ -80,6 +80,14 @@ const SignComponent=()=> {
            </h1>
            <img src={accept} className="h-8 w-8 mix-blend-multiply" />
          </button>
+                         <button
+                 onClick={handleClickRejeter}
+                 className="p-1 py-[0.35rem] px-5 flex flex-row items-center justify-center rounded-lg bg-neutral-100 shadow-lg cursor-pointer hover:bg-red-300 mt-5 transition-transform duration-250 ease-out transform hover:scale-105 mb-3 border-gray-600/30 border-[1px]">
+               <h1 className="font-bold text-black/60 uppercase tracking-wider text-md px-3 py-2">
+                       Rejeter la signature
+               </h1>
+               <img  src={cancel} className="  h-9 w-9 mix-blend-multiply ml-5 mr-[-0.4cm]" />
+         </button>
 
                 </div>
   )}

@@ -11,16 +11,17 @@ const Dashboard = () => {
     const title=localStorage.getItem('role')===Role.citoyen?'Dashboard Citoyen':'Dashboard Employé';
     const [documents, setDocuments] = useState<document[]>([]);
     const statusMapping: Record<string, string> = {
-        "APPROVED": "approUvé",
+        "APPROVED": "approuvé",
         "REJECTED": "rejeté",
-        "PENDING": "en COURS",
+        "PENDING": "en cours",
     };
     const getStatusDisplay = (status: string) => {
+        console.log(status);
     switch(status) {
-        case "apprové": 
+        case "approuvé": 
             return (
                 <div className="flex items-center justify-center">
-                    <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block mt-5">
+                    <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block ">
                         {status}
                     </span>
                 </div>
@@ -28,15 +29,15 @@ const Dashboard = () => {
         case "rejeté": 
             return (
                 <div className="flex items-center justify-center">
-                    <span className="bg-red-500 text-white py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5">
+                    <span className="bg-red-500 text-white py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block">
                         {status}
                     </span>
                 </div>
             );
-        case "en attente": 
+        case "en cours": 
             return (
                 <div className="flex items-center justify-center">
-                    <span className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block mt-5">
+                    <span className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block">
                         {status}
                     </span>
                 </div>
