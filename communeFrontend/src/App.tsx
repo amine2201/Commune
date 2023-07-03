@@ -16,6 +16,7 @@ import UpdateCitizen from './Components/UpdateCitizen';
 import UpdateEmployee from './Components/UpdateEmployee';
 import AdminDashBoardCitizens from './Components/AdminDashboardCitizens';
 import AdminDashboardEmployees from './Components/AdminDashboardEmployees';
+import StatsComponent from './Components/StatsComponent';
 
 const queryClient = new QueryClient();
 function App() {
@@ -29,6 +30,7 @@ return (
       {
         isUserLoggedIn ?
         <>
+                <Route path="/stats" element={<StatsComponent />} />
                 <Route path="/services" element={<Service />} />
                 <Route path="/statut" element={<Dashboard />} />
                 <Route path="/signer/:id" element={<SignComponent />} />
@@ -44,7 +46,7 @@ return (
        </>
        :
         <>        
-                
+                <Route path="/stats" element={<StatsComponent />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Signup" element={<Signup />} />
