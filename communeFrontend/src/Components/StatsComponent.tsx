@@ -11,6 +11,7 @@ Chart.register(CategoryScale);
 const StatsComponent: React.FC = () => {
 
   useEffect(() => {
+    localStorage.setItem('user',"president@commune.com")
         axios.get('http://localhost:8080/api/v1/president/stats').then((response) => {
             const data = response.data;
             setEmployees(data.employees);
@@ -23,13 +24,13 @@ const StatsComponent: React.FC = () => {
   }, []);
 
 
-const [employees,setEmployees] = useState(0);
-const [citizens,setCitizens] = useState(0);
+const [employees,setEmployees] = useState(10);
+const [citizens,setCitizens] = useState(20);
 const barData = {
-    labels: ["Employees", "Citizens"],
+    labels: ["Employés", "Citoyens"],
     datasets: [
       {
-        label : "Number of employees and citizens",
+        label : "nombre d'employés et de citoyens",
         data: [employees, citizens],
         backgroundColor: ["#007D9C", "#244D70"],
         borderColor: ["#007D9C", "#244D70"],
@@ -38,10 +39,10 @@ const barData = {
     ],
   };
 
-  const [totalDocuments,setTotalDocuments] = useState(0);
-  const [validatedDocuments,setValidatedDocuments] = useState(0);
+  const [totalDocuments,setTotalDocuments] = useState(100);
+  const [validatedDocuments,setValidatedDocuments] = useState(20);
   const pieData = {
-    labels: ["nombre total des Documents", "Documents signés"],
+    labels: ["nombre total des Documents", "ombre total des Documents signés"],
     datasets: [
       {
         label: "documents signés par rapport au nombre total",
@@ -58,11 +59,11 @@ console.log(barData);});
   return (
     <>
     <Navbar isAuthenticated={true}/>
-    <div className="grid grid-cols-2 gap-4 p-4">
-      <div className="bg-white shadow rounded p-4">
-        <Pie data={pieData} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      <div className="shadow rounded p-4 ">
+        <Pie data={pieData}  options={{ maintainAspectRatio: false }}/>
       </div>
-      <div className="bg-white shadow rounded p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Bar data={barData} />
       </div>
     </div>
