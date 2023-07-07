@@ -3,10 +3,11 @@ import '../App.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { Citoyen } from "../Types/types";
 import { useMutation } from '@tanstack/react-query';
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { SignupCitoyen } from '../Api/Auth/AuthService';
 import Modal from 'react-modal';
 import PhotoCaptureModal from './PhotoCaptureModal';
+import Toast, { showToast } from './Toast';
 
 
 
@@ -27,11 +28,32 @@ export default function Signup(){
     const onChangeInput = (e:ChangeEvent<HTMLInputElement>)=>{
     const {name ,value } = e.target 
     setUser({...user,[name]:value}) }  
-
-    useEffect(() => {
-        if(CIN===user.cin){
-            handleModalClose();}
-        }, [CIN]);
+    const activateToast=(verification:boolean,cin='')=>{
+        if(verification &&cin===user.cin){
+            showToast("Votre identité est verifiée", {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              },true);
+        }
+        else{
+            showToast("Impossible de vérifier votre identité", {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              },false);
+        }
+    }
     const onSubmitForm = async (e : SyntheticEvent) => {
     e.preventDefault()
     try {
@@ -92,7 +114,9 @@ return (
         isOpen={isModalOpen}
         onRequestClose={handleModalClose}
         setCIN={setCIN}
+        activateToast={activateToast}
       />
+      <Toast position="bottom-center" autoClose={3000} theme="light" />  
         </>
       )
     }

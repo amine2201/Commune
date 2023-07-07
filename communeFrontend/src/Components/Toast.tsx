@@ -25,7 +25,6 @@ const Toast = ({ position, autoClose, theme }:ToastProps) => {
 };
 
 export const showToast = (message:string, options = {},type:boolean) => {
-    console.log(type);
     if (type) toast.success(message, options);
     else toast.error(message, options);
 };
