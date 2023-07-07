@@ -4,8 +4,7 @@ import {  Link, useNavigate } from "react-router-dom";
 import { User } from "../Types/types";
 import { ChangeEvent, SyntheticEvent , useState } from 'react';
 import { LoginUser } from '../Api/Auth/AuthService';
-
-import { ToastContainer, toast } from 'react-toastify';
+import Toast, { showToast } from './Toast';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -26,12 +25,11 @@ export default function Login(){
 
   const onSubmitForm = async (e : SyntheticEvent) => {
     e.preventDefault()  
-    try {
-      LoginUser(email,password).then(()=>{navigate('/'); window.location.reload();});
-    
-  }   catch (err) {
-    console.dir("LOGIN ERROR : ",err);
-    toast.error('Données Incorrectes ! Veuillez répeter', {
+
+      LoginUser(email,password).then(()=>{
+        navigate('/'); window.location.reload();
+      }).catch (()=> {
+    showToast('Données Incorrectes ! Veuillez répeter', {
       position: "bottom-center",
       autoClose: 3000,
       hideProgressBar: true,
@@ -40,10 +38,10 @@ export default function Login(){
       draggable: true,
       progress: undefined,
       theme: "colored",
-      });
+    },false);
   
 
-  }
+  });
 
       setUser({email:'',password:''})
 }
@@ -73,19 +71,7 @@ return (
                          
                       </div>
                       <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">S'Authentifier</button>
-                      <ToastContainer
-                        position="bottom-center"
-                        autoClose={3000}
-                        hideProgressBar
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                        />                        
-                 
+                      <Toast position="bottom-center" autoClose={3000} theme="light" />                      
                       <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
                           Vous n'avez pas un compte ? <Link to="/Signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Inscription</Link>
                       </p>

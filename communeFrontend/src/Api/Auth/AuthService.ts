@@ -17,15 +17,13 @@ export const SignupCitoyen = async (citoyen : Citoyen) => {
 }
 
 export const LoginUser = async (email:string , password:string) => {
-    try {
         const data = await api.post('/authenticate', {email , password});
         const {role,token} = data.data;
         localStorage.setItem('jwtToken', token);
         localStorage.setItem('user', email);
         localStorage.setItem('role', role);
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        return data;
-    }   catch (error) { console.dir("LOGIN ERROR : ",error);   }
+        return data;  
 }
 export const LogoutUser = async () => {
     localStorage.removeItem('jwtToken');

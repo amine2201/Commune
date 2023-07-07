@@ -43,6 +43,10 @@ const documentService = {
     validateDocument: async (documentId:Number,status:DocumentStatus) => {
         const response = await api.post(`/documents/valider/${documentId}?status=${status}`);
         return response.data;
+    },
+    rejectDocument: async (documentId:Number) => {
+        const response = await api.post(`/documents/annuler/${documentId}`);
+        return response.data;
     }
 };
 export default documentService;

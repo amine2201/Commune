@@ -43,7 +43,7 @@ public class DocumentController {
             try {
                 List<Citizen> citizens=new ArrayList<>();
                 for(String cin : cins){
-                    citizens.add(citizenRepo.findByCin(cin).orElseThrow(()->new CitizenNotFoundException("citoyen "+cin+" pas trouve")));
+                    citizens.add(citizenRepo.findByCin(cin).orElseThrow(()->new CitizenNotFoundException("citoyen "+cin+" pas trouvé")));
                 }
                 String fileName = file.getOriginalFilename();
                 String filePath = System.getProperty("user.dir")+"/documents/" + fileName;
@@ -91,10 +91,13 @@ public class DocumentController {
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             if(!document.getCitizens().contains(citizen)){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous n'etes pas concerne par ce document");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous n'êtes pas concerné par ce document");
             }
             else if(document.getSignees().contains(citizen)){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous avez deja signe ce document");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous avez déjà signé ce document");
+            }
+            else if(document.getStatus().equals(Status.REJECTED)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ce documet est déjà rejeté");
             }
             else{
                 document.getSignees().add(citizen);
@@ -105,7 +108,32 @@ public class DocumentController {
             }
         }
         documentRepo.save(document);
-        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" signe avec succes");
+        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" signe avec succés");
+    }
+    @PostMapping("/documents/annuler/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','CITOYEN')")
+    public ResponseEntity<String> rejeterDocument(@PathVariable("id") Long id){
+        Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" non trouvé"));
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
+            Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            if(!document.getCitizens().contains(citizen)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous n'êtes pas concerné par ce document");
+            }
+            else if(document.getSignees().contains(citizen)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("vous avez déjà signé ce document");
+            }
+            else if(document.getStatus().equals(Status.REJECTED)){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ce documet est déjà rejeté");
+            }
+            else{
+                document.setStatus(Status.REJECTED);
+                for(Citizen citizen1 : document.getSignees()){
+                    notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen1.getId(),document.getId());
+                }
+                documentRepo.save(document);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" rejeté avec succés");
     }
     @PostMapping("/documents/valider/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
@@ -113,7 +141,7 @@ public class DocumentController {
         Document document=documentRepo.findById(id).orElseThrow(()->new DocumentNotFoundException("document "+id+" non trouve"));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))){
             if(document.getStatus().equals(Status.APPROVED)){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ce document est deja valide");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ce document est deja validé");
             }
             else{
                 document.setStatus(status);
@@ -129,18 +157,18 @@ public class DocumentController {
             }
         }
         documentRepo.save(document);
-        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" status changee avec succes");
+        return ResponseEntity.status(HttpStatus.OK).body("document"+id+" status changée avec succés");
     }
     @GetMapping("/documents/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
     public DocumentInfo getDocumentById(@PathVariable Long id) {
-        return getDocumentInfo(documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve")));
+        return getDocumentInfo(documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouvé")));
     }
 
     @PutMapping("/documents/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public DocumentInfo updateDocument(@PathVariable Long id, @RequestBody Document document) {
-        Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+        Document document1 = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouvé"));
         document1.setDocumentType(document.getDocumentType());
         document1.setCitizens(document.getCitizens());
         document1.setStatus(document.getStatus());
@@ -161,13 +189,13 @@ public class DocumentController {
     @DeleteMapping("/documents/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String deleteDocument(@PathVariable Long id) {
-        Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+        Document document = documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouvé"));
         documentRepo.delete(document);
-        return "document " + id + " supprime avec succes";
+        return "document " + id + " supprimé avec succés";
     }
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws MalformedURLException {
-        Document document =documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouve"));
+        Document document =documentRepo.findById(id).orElseThrow(() -> new DocumentNotFoundException("document " + id + " non trouvé"));
         Path fileLocation = Paths.get(document.getPath());
         Resource resource = new UrlResource(fileLocation.toUri());
 

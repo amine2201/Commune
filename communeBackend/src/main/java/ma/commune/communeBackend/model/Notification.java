@@ -20,26 +20,26 @@ public class Notification {
     public Notification(NotificationType type) {
         this.type = type;
         if(type.equals(NotificationType.DOCUMENT_REJECTED)){
-            this.message = "Document decline";
+            this.message = "Document rejeté";
         }
         else if(type.equals(NotificationType.DOCUMENT_APPROVED)){
-            this.message = "Document valide";
+            this.message = "Document validé";
         }
         else{
-            this.message = "Document a signer";
+            this.message = "Document à signer";
         }
     }
 
     public void setType(NotificationType type) {
         this.type = type;
         if(type.equals(NotificationType.DOCUMENT_REJECTED)){
-            this.message = "Document decline";
+            this.message = "Document rejeté";
         }
         else if(type.equals(NotificationType.DOCUMENT_APPROVED)){
-            this.message = "Document valide";
+            this.message = "Document validé";
         }
         else{
-            this.message = "Document a signer";
+            this.message = "Document à signer";
         }
     }
 }

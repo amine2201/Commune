@@ -2,7 +2,7 @@
 import { Dialog , Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
-const Modal = ()=>{
+const Modal = ({ message, bouttonText, hrefURL }: { message: string; bouttonText: string; hrefURL: string })=>{
         const [isOpen, setIsOpen] = useState<boolean>(true)
         const closeModal = () => setIsOpen(false)      
         return (
@@ -45,18 +45,18 @@ const Modal = ()=>{
                           </Dialog.Title>
                           <div className="mt-2">
                             <p className="text-sm text-gray-500">
-                            Votre fichier a été téléchargé avec succès.
+                            {message}
                             </p>
                           </div>
         
                           <div className="mt-4">
-                          <Link to='/status'>
+                          <Link to={hrefURL}>
                             <button
                               type="button"
                               className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                               onClick={closeModal}
                             >
-                              Vérifier son statut
+                              {bouttonText}
                             </button>
                             </Link>
                           </div>

@@ -16,7 +16,6 @@ const Dashboard = () => {
         "PENDING": "en cours",
     };
     const getStatusDisplay = (status: string) => {
-        console.log(status);
     switch(status) {
         case "approuvé": 
             return (

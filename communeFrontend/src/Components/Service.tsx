@@ -9,6 +9,7 @@ import { DocumentType, UploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFile} from "@fortawesome/free-solid-svg-icons"
+import Toast, { showToast } from "./Toast"
 
 
 const Service =  () => {
@@ -16,8 +17,8 @@ const Service =  () => {
    const [upload , setUpload] = useState<UploadData>({
         CINs : [],
    })
-    const [file,setFile] = useState<File >()
-    const [clicked,setClicked] = useState<boolean>(false)
+   const [success,setSuccess] = useState<boolean>(false);
+    const [file,setFile] = useState<File >();
     const [checked,setChecked] = useState<boolean>(false)
     const [val, setVal] = useState<string[]>([]);
     const [buttonClicked, setButtonClicked] = useState<number>(0);
@@ -32,14 +33,24 @@ const Service =  () => {
     setUpload((prev) => ({...prev, _file : e.target.files![0]}))
     }
     const handleSubmission = async () => {
-        setClicked(true);
         const formData = new FormData();
         formData.append("file", file!);
         formData.append("DocumentType", upload.documentType!);
         formData.append("cins", upload.CINs.toString());
         api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
         await api.post('/documents', 
-          formData); }
+          formData).then(()=>setSuccess(true)).catch( (err)=>{                 
+            showToast(err.response.data, {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          },false);});
+        }
      
      
       const handleAdd = () => {
@@ -81,6 +92,7 @@ const Service =  () => {
     return (
 
         <>
+         <Toast position="bottom-center" autoClose={3000} theme="light" />  
         <Navbar isAuthenticated={true}/>
        
         <section style={{ height: `${80+buttonClicked*5}vh`}} className="flex flex-col items-center justify-center  mx-auto md:h-[80vh] px-10  w-[78vh]  bg-white rounded-md mt-4  pb-[1.3cm] bg-opacity-70  drop  shadow-xl  ">
@@ -125,8 +137,8 @@ const Service =  () => {
              <div className=" border-solid border-green-800 rounded-sm ">
              
              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded " type="submit"  onClick={handleSubmission}>Charger votre fichier</button>
-             {clicked &&
-               <Modal/> }
+             {success &&
+               <Modal message="Votre fichier a été téléchargé avec succès." bouttonText="Vérifier son statut" hrefURL='/statut'/> }
              </div>
             </>
              :
@@ -139,8 +151,7 @@ const Service =  () => {
               </>}
            
         
-        </section>
-        
+        </section>  
         </>
     )
 }
