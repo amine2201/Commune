@@ -3,7 +3,7 @@ import Modal from "./Modal"
 import Navbar from "./Navbar"
 import contract from '../assets/contract.jpg' 
 import add from '../assets/add.png' 
-import { ChangeEvent, useEffect, useState  } from "react"
+import { ChangeEvent, useState  } from "react"
 import cancel2 from '../assets/cancel2.jpg'
 import { DocumentType, UploadData } from "../Types/types"
 import { api } from "../Api/Auth/AuthService"
@@ -37,8 +37,8 @@ const Service =  () => {
         formData.append("file", file!);
         formData.append("DocumentType", upload.documentType!);
         formData.append("cins", upload.CINs.toString());
-
-        await api.post('/upload', 
+        api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`;
+        await api.post('/documents', 
           formData); }
      
      
@@ -72,11 +72,6 @@ const Service =  () => {
     
         }
       }
-      useEffect(() => {
-       console.log("UPLOAD DATA : ",upload)
-
-      }, [upload])
-
       const handleDeleteFile = () => {
         setFile(undefined)
         setUpload((prev) => ({...prev, _file : undefined}))
