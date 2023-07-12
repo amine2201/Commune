@@ -35,7 +35,7 @@ return (
                 <Route path="/statut" element={<Dashboard />} />
                 <Route path="/signer/:id" element={<SignComponent />} />
                 <Route path="/updateCitoyen/:id" element={<UpdateCitizen />} />
-                <Route path="/updateEmployee/:id" element={<UpdateEmployee />} />
+                <Route path="/updateEmploye/:id" element={<UpdateEmployee />} />
                 <Route path="/statut" element={<Dashboard />} />
                 <Route path="/employe" element={<AdminDashboardEmployees />} />
                 <Route path="/citoyen" element={<AdminDashBoardCitizens />} />

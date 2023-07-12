@@ -28,7 +28,7 @@ const Notifications = () => {
           {notifications.map((notification)=>(<Menu.Item key={notification.id}>
             {({ active }) => (
               <Link
-                to={notification.type== NotificationType.documentToSign? '/signer':'/CitizenDashboard'}
+                to={notification.type== NotificationType.documentToSign? '/signer':'/statut'}
                 className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'} block px-4 py-2 text-sm`}
               >
                 {notification.message}

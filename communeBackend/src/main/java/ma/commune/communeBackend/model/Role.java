@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 public enum Role {
     ADMIN,
     EMPLOYEE,
-    CITOYEN;
-
+    CITOYEN,
+    PRESIDENT;
 
     public List<SimpleGrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.name()));

@@ -42,7 +42,7 @@ const barData = {
   const [totalDocuments,setTotalDocuments] = useState(100);
   const [validatedDocuments,setValidatedDocuments] = useState(20);
   const pieData = {
-    labels: ["nombre total des Documents", "ombre total des Documents signés"],
+    labels: ["nombre total des Documents", "nombre total des Documents signés"],
     datasets: [
       {
         label: "documents signés par rapport au nombre total",

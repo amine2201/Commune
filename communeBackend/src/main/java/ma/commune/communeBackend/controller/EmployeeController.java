@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeFoundException;
 import ma.commune.communeBackend.exception.EmployeeExceptions.EmployeeNotFoundException;
 import ma.commune.communeBackend.model.Employee;
+import ma.commune.communeBackend.model.record.EmployeeInfo;
 import ma.commune.communeBackend.repository.EmployeeRepo;
 import ma.commune.communeBackend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,13 @@ public class EmployeeController{
     }
     @PutMapping("/employees/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
-    public ResponseEntity<Employee> updateEmployeeById(@PathVariable long id, @Valid @RequestBody Employee employeeUpdated){
+    public ResponseEntity<Employee> updateEmployeeById(@PathVariable long id, @Valid @RequestBody EmployeeInfo employeeUpdated){
         Employee employee= employeeRepo.findById(id).orElseThrow(()->new EmployeeNotFoundException("employee "+id+" not found"));
-        employee.setEmail(employeeUpdated.getEmail());
-        employee.setPassword(passwordEncoder.encode(employeeUpdated.getPassword()));
-        employee.setRole(employeeUpdated.getRole());
-        employee.setFirstName(employeeUpdated.getFirstName());
-        employee.setLastName(employeeUpdated.getLastName());
-        employee.setMunicipality(employee.getMunicipality());
+        employee.setEmail(employeeUpdated.email());
+        if(!employeeUpdated.password().isBlank())
+            employee.setPassword(passwordEncoder.encode(employeeUpdated.password()));
+        employee.setFirstName(employeeUpdated.firstName());
+        employee.setLastName(employeeUpdated.firstName());
         employeeRepo.save(employee);
         employee.setPassword("");
         return ResponseEntity.ok(employee);

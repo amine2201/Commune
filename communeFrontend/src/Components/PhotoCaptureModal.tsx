@@ -67,7 +67,7 @@ const PhotoCaptureModal: React.FC<PhotoCaptureModalProps> = ({ isOpen, onRequest
     };
     
   useEffect(() => {
-    setTimeout(takePictures, 1000);
+    setTimeout(takePictures, 2000);
   },[isOpen]);
 
   return (

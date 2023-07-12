@@ -55,6 +55,10 @@ public class DocumentController {
                 document.setDocumentType(documentType);
                 document.setCitizens(citizens);
                 document.setStatus(Status.PENDING);
+                if(documentType==DocumentType.CERTIFICATION) {
+                    document.setCitizens(List.of((Citizen) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())));
+                    document.setSignees(List.of((Citizen) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())));
+                }
                 document=documentRepo.save(document);
                 for(Citizen citizen : citizens){
                     Notification notification=new Notification();
@@ -73,14 +77,16 @@ public class DocumentController {
         }
     }
     @GetMapping("/documents")
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE','CITOYEN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PRESIDENT','EMPLOYEE','CITOYEN')")
     public List<DocumentInfo> getAllDocuments(){
         List<Document> documents=documentRepo.findAll();
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CITOYEN"))){
             Citizen citizen=(Citizen)( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             documents.removeIf(document -> !document.getCitizens().contains(citizen));
+            return documents.stream().map(DocumentController::getDocumentInfo).toList();
         }
-        return documents.stream().map(DocumentController::getDocumentInfo).toList();
+        return documents.stream().filter(document -> document.getCitizens().size()==document.getSignees().size())
+                .map(DocumentController::getDocumentInfo).toList();
 
     }
     @PostMapping("/documents/signer/{id}")
@@ -106,6 +112,11 @@ public class DocumentController {
                 file.transferTo(dest);
                 notificationRepo.deleteNotificationByCitizenIdAndDocumentId(citizen.getId(),document.getId());
             }
+        }
+        else if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))) {
+            String filePath = document.getPath();
+            File dest = new File(filePath);
+            file.transferTo(dest);
         }
         documentRepo.save(document);
         return ResponseEntity.status(HttpStatus.OK).body("document"+id+" signe avec succés");

@@ -17,7 +17,8 @@ const Service =  () => {
    const [upload , setUpload] = useState<UploadData>({
         CINs : [],
    })
-   const [success,setSuccess] = useState<boolean>(false);
+    const [documentType, setDocumentType] = useState<DocumentType>();
+    const [success,setSuccess] = useState<boolean>(false);
     const [file,setFile] = useState<File >();
     const [checked,setChecked] = useState<boolean>(false)
     const [val, setVal] = useState<string[]>([]);
@@ -75,12 +76,12 @@ const Service =  () => {
         if (e.target.value === "CERTIFICATION"){
           setChecked(true)
           setUpload((prev) => ({...prev, documentType : DocumentType.certification}))
-          
+          setDocumentType(DocumentType.certification);
         }
         else {
           setChecked(true)
           setUpload((prev) => ({...prev, documentType : DocumentType.legalisation}))
-    
+          setDocumentType(DocumentType.legalisation);
         }
       }
       const handleDeleteFile = () => {
@@ -102,30 +103,44 @@ const Service =  () => {
         </div>
             <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Choisissez votre type de service</h2>
             <div>
-            <input id="default-radio-1" type="radio" value="Legalization" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className=" text-sm font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALIZATION</label>
-            <input id="default-radio-1" type="radio" value="Certification" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600  focus:ring-2 cursor-pointer"/>
-            <label htmlFor="default-radio-1" className="ml-2  text-sm font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
+            <input id="default-radio-1" type="radio" value="LEGALISATION" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-gray-600 bg-gray-300 border-gray-300 focus:ring-gray-500  focus:ring-2 cursor-pointer"/>
+            <label htmlFor="default-radio-1" className=" text-sm font-extrabold  text-gray-500/70 pr-5 pl-2 tracking-wider">LEGALISATION</label>
+            <input id="default-radio-2" type="radio" value="CERTIFICATION" name="default-radio" onChange={handleRadioButtonChange} className="w-[0.9rem] h-[0.9rem] text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600  focus:ring-2 cursor-pointer"/>
+            <label htmlFor="default-radio-2" className="ml-2  text-sm font-extrabold  text-gray-500/70 pr-5  tracking-wider">CERTIFICATION</label>
 
             </div>
-            <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">Ajouter les signataires de document</h2>
-            <img onClick={handleAdd} src={add} className="cursor-pointer h-7 w-7 opacity-70 hover:opacity-50 relative block mb-2" />
-           
-          {val.map((myCINS, i) => (
-            <div key={i} className="flex items-center mb-2">
-                
-              <input
-                type="text"
-                placeholder="CIN"
-                value={myCINS}
-                onChange={(e) => handleChange2(e, i)}
-                className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200 text-black font-semibold"
-              />
-              
-              <img onClick={() => handleDelete(i)} src={cancel2} className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5 mix-blend-multiply"/>
-            
-            </div>
-          ))}
+            {documentType === DocumentType.legalisation ? (
+  <>
+    {/* Your current legalisation UI here */}
+    <h2 className="font-extrabold py-5 text-center text-gray-600 text-md uppercase tracking-wider">
+      Ajouter les signataires de document
+    </h2>
+    <img
+      onClick={handleAdd}
+      src={add}
+      className="cursor-pointer h-7 w-7 opacity-70 hover:opacity-50 relative block mb-2"
+    />
+
+    {val.map((myCINS, i) => (
+      <div key={i} className="flex items-center mb-2">
+        <input
+          type="text"
+          placeholder="CIN"
+          value={myCINS}
+          onChange={(e) => handleChange2(e, i)}
+          className="border border-gray-300 rounded py-2 px-4 ml-10  focus:outline-none focus:ring-blue-500 focus:border-blue-500 flex-grow bg-primary-200 text-black font-semibold"
+        />
+
+        <img
+          onClick={() => handleDelete(i)}
+          src={cancel2}
+          className="cursor-pointer h-9 w-9 opacity-70 hover:opacity-50 relative block  ml-5 mix-blend-multiply"
+        />
+      </div>
+    ))}
+  </>
+) : null}
+
 
             {file ?
              <>

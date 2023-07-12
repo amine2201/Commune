@@ -29,7 +29,8 @@ const UpdateCitizen = () => {
     const onSubmitForm = async (e : React.SyntheticEvent) => {
         e.preventDefault();
         CitoyenService.updateCitoyen(id,citoyen);
-        navigate('/citoyens')
+        navigate('/citoyen');
+        setTimeout(() => window.location.reload(), 100);
     }
     return (
         <div>

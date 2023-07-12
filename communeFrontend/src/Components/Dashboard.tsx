@@ -19,7 +19,7 @@ const Dashboard = () => {
     switch(status) {
         case "approuvé": 
             return (
-                <div className="flex items-center justify-center">
+                <div className="flex">
                     <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs font-bold uppercase block ">
                         {status}
                     </span>
@@ -27,16 +27,16 @@ const Dashboard = () => {
             );
         case "rejeté": 
             return (
-                <div className="flex items-center justify-center">
-                    <span className="bg-red-500 text-white py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block">
+                <div className="flex">
+                    <span className="bg-red-500 text-white py-1 px-3 rounded-full text-xs font-bold uppercase  block">
                         {status}
                     </span>
                 </div>
             );
         case "en cours": 
             return (
-                <div className="flex items-center justify-center">
-                    <span className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase ml-1 block">
+                <div className="flex">
+                    <span className="bg-orange-300 text-orange-600 py-1 px-3 rounded-full text-xs font-bold uppercase block">
                         {status}
                     </span>
                 </div>
@@ -84,7 +84,7 @@ const Dashboard = () => {
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">
                         Type de service
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">
+                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-bold text-gray-600 uppercase tracking-wider ml-1">
                         Status
                     </th>
                     <th className="px-7 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-bold text-gray-600 uppercase tracking-wider ">

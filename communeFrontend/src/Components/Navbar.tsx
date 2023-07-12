@@ -35,11 +35,19 @@ const NavbarTrue = () => {
           ):localStorage.getItem('role') === 'EMPLOYEE'?(
               <Link className=" flex items-center rounded-lg px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-350 ease-in-out 
               hover:rounded-lg hover:bg-blue-200/25 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 tracking-wider" to="/statut">Statut</Link>
-            ):(
+            ):localStorage.getItem('role') === 'PRESIDENT'?(
+              <>
+              <Link className=" flex items-center rounded-lg px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-350 ease-in-out 
+              hover:rounded-lg hover:bg-blue-200/25 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 tracking-wider" to="/statut">Statut</Link>
+              <li>
+                <Link className="flex items-center rounded-lg px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-350 ease-in-out 
+                hover:rounded-lg hover:bg-blue-200/25 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 tracking-wider" to="/stats">Statistiques</Link>
+              </li>
+              </>):(
             <>
             <li>
             <Link className="flex items-center rounded-lg px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-350 ease-in-out 
-            hover:rounded-lg hover:bg-blue-200/25 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 tracking-wider " to="/employe">Fonctionnaire</Link>
+            hover:rounded-lg hover:bg-blue-200/25 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 tracking-wider " to="/employe">Employe</Link>
             </li>
             <li>
             <Link className="flex items-center rounded-lg px-6 pb-2 pt-2.5 text-black font-medium uppercase leading-normal text-primary transition duration-350 ease-in-out 

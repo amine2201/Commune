@@ -59,6 +59,7 @@ export default function Signup(){
     try {
         await mutateAsync({ email: user.email, password: user.password, cin: user.cin });
         navigate('/')
+        setTimeout(() => window.location.reload(), 100);
         } catch (error) {
         console.log(error);
       }
