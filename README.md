@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/amine2201/Commune">
-    <img src="communeFrontend/src/assets/subjectToDocument.jpeg" alt="Logo" width="80" height="80">
+    <img src="communeFrontend/src/assets/subjectToDocument.jpeg" alt="Logo" width="80" height="80"/>
   </a>
 
   <h3 align="center"></h3>
